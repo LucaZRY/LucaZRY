@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -646,5 +646,181 @@
     // Set current year in footer
     document.getElementById("year").textContent = new Date().getFullYear();
   </script>
+</body>
+</html> -->
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Wheel-Loader RL Project | Ruiyang (Lucas) Zhou</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: #0d1117;
+      color: #e6edf3;
+      margin: 0;
+      padding: 0;
+      line-height: 1.6;
+    }
+    a { color: #4fd1c5; }
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+    header {
+      margin-bottom: 32px;
+    }
+    h1, h2, h3 {
+      color: #58a6ff;
+    }
+    img, video {
+      width: 100%;
+      border-radius: 12px;
+      margin: 12px 0;
+      border: 1px solid #30363d;
+    }
+    section {
+      background: #161b22;
+      padding: 20px;
+      margin: 18px 0;
+      border-radius: 12px;
+      border: 1px solid #30363d;
+    }
+    nav a {
+      background: #21262d;
+      padding: 8px 14px;
+      border-radius: 8px;
+      text-decoration: none;
+      color: #e6edf3;
+      border: 1px solid #30363d;
+    }
+    nav a:hover {
+      background: #30363d;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+
+    <!-- 🔙 Back to main site -->
+    <nav>
+      <a href="../index.html">← Back to Main Portfolio</a>
+    </nav>
+
+    <!-- ⭐ HERO SECTION -->
+    <header>
+      <h1>Wheel-Loader Reinforcement Learning Project</h1>
+      <p>
+        This project focuses on learning autonomous scooping motions for a wheel loader
+        using reinforcement learning within a high-fidelity Isaac Sim environment.
+      </p>
+      <img src="../assets/images/wheelloader_hero.png" alt="Wheel Loader Hero Image" />
+    </header>
+
+    <!-- 🟦 INTRODUCTION -->
+    <section>
+      <h2>Introduction</h2>
+      <p>
+        Construction sites frequently rely on wheel loaders to handle repetitive
+        scooping and loading tasks. These tasks require precision, physical endurance,
+        and operator experience, often leading to fatigue and inconsistent performance.
+        To address this real-world inefficiency, this project investigates whether
+        reinforcement learning can generate smooth, reliable, and efficient scooping
+        motions for autonomous wheel-loader operation.
+      </p>
+      <p>
+        The objective of this project is to develop and evaluate a reinforcement-learning
+        policy capable of performing bucket scooping in simulated granular media using
+        Isaac Sim / IsaacLab.
+      </p>
+    </section>
+
+    <!-- 🛠 METHODS -->
+    <section>
+      <h2>Methods</h2>
+      <p>
+        A custom Isaac Sim / IsaacLab environment was built to model the articulated
+        arm and bucket of a wheel loader. The system observes joint positions,
+        velocities, bucket pose, and contact information, and outputs continuous
+        torque or velocity commands to control the scooping motion.
+      </p>
+
+      <p>The simulation includes:</p>
+      <ul>
+        <li>Realistic granular rock piles</li>
+        <li>Custom USD environment assets (walls, boundaries)</li>
+        <li>Accurate joint/actuator limits</li>
+        <li>PD-based torque controllers</li>
+      </ul>
+
+      <p>
+        A Bézier-curve-based trajectory was used as the initial scripted baseline.
+        A PPO-style reinforcement learning agent improved this baseline using a reward
+        function designed to encourage deeper penetration, smooth torques, efficient
+        motion, and higher bucket fill levels.
+      </p>
+
+      <img src="../assets/images/wheelloader_architecture.png" alt="System Architecture" />
+    </section>
+
+    <!-- 📈 RESULTS -->
+    <section>
+      <h2>Results</h2>
+      <p>
+        The trained RL policy produced smoother and more consistent scooping behaviors
+        than the scripted baseline. It achieved higher average fill levels and reduced
+        torque spikes, demonstrating better control of the bucket’s penetration angle
+        and trajectory curvature during the scooping phase.
+      </p>
+
+      <p>Key results include:</p>
+      <ul>
+        <li>Higher bucket fill levels across randomized piles</li>
+        <li>Reduced torque spikes and smoother actuator profiles</li>
+        <li>More reliable scooping angle selection</li>
+        <li>Improved consistency over scripted baseline motions</li>
+      </ul>
+
+      <!-- 🔥 Add your demo video here -->
+      <video controls>
+        <source src="../assets/videos/wheelloader_demo.mp4" type="video/mp4" />
+      </video>
+    </section>
+
+    <!-- 💬 DISCUSSION -->
+    <section>
+      <h2>Discussion</h2>
+      <p>
+        These results suggest that reinforcement learning can significantly improve
+        material-handling efficiency in construction automation. Although the simulation
+        still simplifies certain physical effects, the RL policy demonstrated encouraging
+        robustness to variations in pile shape and rock distribution.
+      </p>
+
+      <p>
+        Future work includes domain randomization for sim-to-real transfer, integration
+        with perception modules for environment-aware scooping, and deployment on
+        real-world robotic loader hardware.
+      </p>
+    </section>
+
+    <!-- 👤 YOUR CONTRIBUTION -->
+    <section>
+      <h2>My Contribution</h2>
+      <p>
+        I developed the Isaac Sim environment, built the articulated wheel-loader model,
+        implemented Bézier-curve baselines, designed the RL reward structure, and ran
+        all training experiments. I also created the webpage and visual assets for
+        documenting and presenting the project.
+      </p>
+    </section>
+
+  </div>
 </body>
 </html>
