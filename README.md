@@ -41,7 +41,7 @@ developed as part of the **RoboConstruction (CerLab) group** at CMU.
 
 **Links**
 Detailed project page:  
-👉 [Wheel-Loader RL Project Website](https://LucaZRY.github.io/wheelloader/)
+👉 [Wheel-Loader RL Project Website](https://LucaZRY.github.io/LucaZRY/wheelloader/)
 
 ---
 
