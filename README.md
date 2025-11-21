@@ -40,6 +40,9 @@ PPO expert to student policies via **DAgger** and **diffusion-based** models.
 - Integrated a **diffusion-based policy** to model complex action distributions.
 
 **Links**
+Detailed project page:  
+👉 [Wheel-Loader RL Project Website](https://YOUR-USERNAME.github.io/portfolio/wheelloader/)
+
 - 🔗 **Code Repository:** _TODO: add link, e.g. `https://github.com/your-username/carracing-rl`_  
 - 🎥 **Demo Video:** _TODO: YouTube or other link_  
 - 📄 **Report / Slides:** _TODO: add PDF link or website_
