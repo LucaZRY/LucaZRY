@@ -25,8 +25,32 @@ This portfolio showcases selected projects and links to code, demos, and reports
 > 🖼 For each project, place an image in `assets/images/` and update the image path + links.
 
 ---
+### 🟦 1. RoboConstruction Wheel Loader — RL Bucket Motion (CerLab @ CMU)
 
-### 🟧 1. CarRacing RL Project — PPO / DAgger / Diffusion
+<img src="assets/images/roboconstruction_wheelloader.png" width="600">
+
+Reinforcement learning and motion optimization for **wheel-loader bucket motion** in a construction setting,  
+developed as part of the **RoboConstruction (CerLab) group** at CMU.
+
+**Highlights**
+- Designed and implemented RL algorithms to optimize autonomous **bucket scooping motion** in wheel loaders.
+- Built a high-fidelity simulation using **Isaac Sim** and Python to evaluate motion efficiency.
+- Improved computational efficiency and experimented with trajectory parameterizations and reward design.
+- Collaborated with an interdisciplinary research group on real-world construction automation.
+
+
+**Links**
+Detailed project page:  
+👉 [Wheel-Loader RL Project Website](https://LucaZRY.github.io/portfolio/wheelloader/)
+
+- 🔗 **Code Repository:** _TODO: add link, e.g. `https://github.com/your-username/carracing-rl`_  
+- 🎥 **Demo Video:** _TODO: YouTube or other link_  
+- 📄 **Report / Slides:** _TODO: add PDF link or website_
+
+---
+
+
+### 🟧 2. CarRacing RL Project — PPO / DAgger / Diffusion
 
 <img src="assets/images/carracing_demo.gif" width="600">
 
@@ -40,29 +64,9 @@ PPO expert to student policies via **DAgger** and **diffusion-based** models.
 - Integrated a **diffusion-based policy** to model complex action distributions.
 
 **Links**
-Detailed project page:  
-👉 [Wheel-Loader RL Project Website](https://LucaZRY.github.io/portfolio/wheelloader/)
 
-- 🔗 **Code Repository:** _TODO: add link, e.g. `https://github.com/your-username/carracing-rl`_  
-- 🎥 **Demo Video:** _TODO: YouTube or other link_  
-- 📄 **Report / Slides:** _TODO: add PDF link or website_
 
----
 
-### 🟦 2. RoboConstruction Wheel Loader — RL Bucket Motion (CerLab @ CMU)
-
-<img src="assets/images/roboconstruction_wheelloader.png" width="600">
-
-Reinforcement learning and motion optimization for **wheel-loader bucket motion** in a construction setting,  
-developed as part of the **RoboConstruction (CerLab) group** at CMU.
-
-**Highlights**
-- Designed and implemented RL algorithms to optimize autonomous **bucket scooping motion** in wheel loaders.
-- Built a high-fidelity simulation using **Isaac Sim** and Python to evaluate motion efficiency.
-- Improved computational efficiency and experimented with trajectory parameterizations and reward design.
-- Collaborated with an interdisciplinary research group on real-world construction automation.
-
-**Links**
 - 🔗 **Code Repository:** _TODO: `https://github.com/your-username/roboconstruction-wheelloader`_  
 - 🎥 **Simulation Demo:** _TODO: add Isaac Sim demo video link_  
 - 📄 **Research Notes / Report:** _TODO: add Overleaf or PDF link_
@@ -105,6 +109,10 @@ into a complete electromechanical system.
 - Documented design choices, trade-offs, and testing methodology.
 
 **Links**
+
+Electromechanical gantry–gripper–CV system for automated book storage and retrieval.  
+👉 [EMSD Project Website](https://LucaZRY.github.io/portfolio/emsd/)
+
 - 🔗 **Code / CAD Repository:** _TODO: `https://github.com/your-username/emsd-project`_  
 - 📄 **Design Report:** _TODO: PDF link_  
 - 🎥 **Demo / Prototype Video:** _TODO: video link_
