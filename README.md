@@ -43,10 +43,6 @@ developed as part of the **RoboConstruction (CerLab) group** at CMU.
 Detailed project page:  
 👉 [Wheel-Loader RL Project Website](https://LucaZRY.github.io/portfolio/wheelloader/)
 
-- 🔗 **Code Repository:** _TODO: add link, e.g. `https://github.com/your-username/carracing-rl`_  
-- 🎥 **Demo Video:** _TODO: YouTube or other link_  
-- 📄 **Report / Slides:** _TODO: add PDF link or website_
-
 ---
 
 
