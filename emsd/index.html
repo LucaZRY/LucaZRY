@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Automatic Bookshelf Managing System (EMSD) | Ruiyang (Lucas) Zhou</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta
+    name="description"
+    content="Automatic Bookshelf Managing System (ABMS): an electromechanical gantry–gripper–CV system for automated book storage and retrieval."
+  />
+  <style>
+    :root {
+      --bg: #050714;
+      --bg-alt: #0b1020;
+      --accent: #4fd1c5;
+      --accent-soft: rgba(79, 209, 197, 0.12);
+      --text-main: #e4e7f5;
+      --text-muted: #9ca3c7;
+      --border-subtle: #1f2937;
+      --card-bg: #0d1224;
+      --shadow-soft: 0 24px 60px rgba(0, 0, 0, 0.6);
+      --radius-lg: 18px;
+      --radius-xl: 26px;
+      --font-main: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
+        "Segoe UI", sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: var(--font-main);
+      background: radial-gradient(circle at top, #111827 0, #020617 55%);
+      color: var(--text-main);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .page {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 24px 18px 64px;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+      gap: 12px;
+    }
+
+    .nav-left a.back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.18);
+    }
+
+    .nav-left a.back-link span.arrow {
+      font-size: 1.1rem;
+    }
+
+    .nav-right {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .chip-link {
+      font-size: 0.85rem;
+      padding: 6px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      color: var(--text-muted);
+      background: rgba(15, 23, 42, 0.9);
+    }
+
+    .chip-link.highlight {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: var(--accent-soft);
+    }
+
+    main {
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.5fr) minmax(0, 1.3fr);
+      gap: 24px;
+      align-items: center;
+    }
+
+    @media (max-width: 820px) {
+      .hero {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .hero-text {
+      padding: 20px 22px;
+      border-radius: var(--radius-xl);
+      background: radial-gradient(circle at top left, #111827 0, #020617 60%);
+      border: 1px solid rgba(148, 163, 184, 0.3);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.8rem;
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      color: var(--text-muted);
+      margin-bottom: 10px;
+    }
+
+    .badge-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: var(--accent);
+      box-shadow: 0 0 12px rgba(79, 209, 197, 0.8);
+    }
+
+    .hero-title {
+      font-size: clamp(1.9rem, 3vw, 2.35rem);
+      font-weight: 650;
+      letter-spacing: 0.02em;
+      margin: 4px 0 10px;
+    }
+
+    .hero-subtitle {
+      font-size: 1rem;
+      color: var(--text-muted);
+      max-width: 32rem;
+      line-height: 1.6;
+      margin-bottom: 14px;
+    }
+
+    .hero-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .hero-tag {
+      font-size: 0.78rem;
+      padding: 4px 9px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.92);
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      color: var(--text-muted);
+    }
+
+    .hero-meta {
+      display: flex;
+      gap: 18px;
+      flex-wrap: wrap;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      border-top: 1px solid rgba(148, 163, 184, 0.2);
+      padding-top: 10px;
+      margin-top: 3px;
+    }
+
+    .hero-meta span strong {
+      color: var(--text-main);
+      font-weight: 500;
+    }
+
+    .hero-visual {
+      border-radius: var(--radius-xl);
+      background: radial-gradient(circle at top, #1f2937 0, #020617 60%);
+      border: 1px solid rgba(148, 163, 184, 0.3);
+      padding: 14px 14px 16px;
+      box-shadow: var(--shadow-soft);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-visual img {
+      display: block;
+      width: 100%;
+      border-radius: 18px;
+      object-fit: cover;
+      max-height: 360px;
+    }
+
+    .hero-visual-note {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 6px;
+    }
+
+    section {
+      padding: 18px 20px 20px;
+      border-radius: var(--radius-lg);
+      background: rgba(15, 23, 42, 0.94);
+      border: 1px solid rgba(148, 163, 184, 0.32);
+      box-shadow: 0 18px 50px rgba(0, 0, 0, 0.55);
+    }
+
+    section + section {
+      margin-top: 2px;
+    }
+
+    section h2 {
+      font-size: 1.1rem;
+      margin: 0 0 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    section h2 span.icon {
+      font-size: 1.2rem;
+    }
+
+    section p {
+      font-size: 0.94rem;
+      color: var(--text-muted);
+      line-height: 1.65;
+      margin: 6px 0;
+    }
+
+    .pill-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .pill {
+      font-size: 0.8rem;
+      padding: 4px 9px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.92);
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      color: var(--text-muted);
+    }
+
+    ul {
+      margin: 6px 0 4px;
+      padding-left: 20px;
+    }
+
+    li {
+      font-size: 0.94rem;
+      color: var(--text-muted);
+      line-height: 1.65;
+      margin-bottom: 3px;
+    }
+
+    .two-column {
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+      gap: 18px;
+      margin-top: 6px;
+    }
+
+    @media (max-width: 820px) {
+      .two-column {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .image-card {
+      background: linear-gradient(135deg, #020617 0, #020617 45%, #111827 100%);
+      border-radius: 16px;
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      padding: 10px 10px 12px;
+    }
+
+    .image-card img {
+      width: 100%;
+      border-radius: 12px;
+      max-height: 260px;
+      object-fit: cover;
+    }
+
+    .image-caption {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 12px;
+      margin-top: 10px;
+    }
+
+    .metric-card {
+      border-radius: 14px;
+      background: radial-gradient(circle at top left, #111827 0, #020617 65%);
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      padding: 10px 12px;
+      font-size: 0.85rem;
+    }
+
+    .metric-label {
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+
+    .metric-value {
+      font-size: 1rem;
+      font-weight: 600;
+    }
+
+    .metric-note {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .link-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .link-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.94);
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      font-size: 0.85rem;
+      color: var(--text-main);
+      text-decoration: none;
+    }
+
+    .link-button.primary {
+      background: linear-gradient(135deg, #22c55e, #4fd1c5);
+      border: none;
+      color: #020617;
+      font-weight: 600;
+    }
+
+    .link-button span.icon {
+      font-size: 1rem;
+    }
+
+    footer {
+      margin-top: 26px;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <div class="nav-left">
+        <!-- Change href to your actual main portfolio site root -->
+        <a href="../index.html" class="back-link">
+          <span class="arrow">←</span>
+          <span>Back to main portfolio</span>
+        </a>
+      </div>
+      <div class="nav-right">
+        <!-- Replace href with the real EMSD code repo -->
+        <a
+          class="chip-link highlight"
+          href="https://github.com/zsqu4re/EMSD-Code"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          View EMSD Code on GitHub
+        </a>
+        <a
+          class="chip-link"
+          href="mailto:lucaszhoury@gmail.com"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Contact Lucas
+        </a>
+      </div>
+    </header>
+
+    <main>
+      <!-- HERO -->
+      <section class="hero">
+        <div class="hero-text">
+          <div class="badge">
+            <span class="badge-dot"></span>
+            <span>24-671 Electromechanical System Design · CMU</span>
+          </div>
+          <h1 class="hero-title">
+            Automatic Bookshelf Managing System (ABMS)
+          </h1>
+          <p class="hero-subtitle">
+            An automated gantry–gripper–computer-vision system that can sort, store,
+            and retrieve books on demand, designed to reduce manual work in high-volume
+            libraries and collections.
+          </p>
+
+          <div class="hero-tags">
+            <span class="hero-tag">Electromechanical Design</span>
+            <span class="hero-tag">Cartesian Gantry</span>
+            <span class="hero-tag">Rack-and-Pinion Gripper</span>
+            <span class="hero-tag">Stepper & Servo Motors</span>
+            <span class="hero-tag">Computer Vision (QR codes)</span>
+          </div>
+
+          <div class="hero-meta">
+            <span><strong>Role:</strong> Mechanical & controls design</span>
+            <span><strong>Course:</strong> EMSD 24-671</span>
+            <span><strong>Timeline:</strong> Fall 2024</span>
+          </div>
+        </div>
+
+        <div class="hero-visual">
+          <!-- Replace with an actual final assembly photo (e.g., Fig.18) -->
+          <img
+            src="../assets/images/emsd_hero.png"
+            alt="Automatic Bookshelf Managing System final prototype"
+          />
+          <p class="hero-visual-note">
+            Final ABMS prototype with 3-axis gantry and book-handling gripper mounted
+            in front of a bookshelf.
+          </p>
+        </div>
+      </section>
+
+      <!-- OVERVIEW -->
+      <section>
+        <h2><span class="icon">📚</span> Project Overview</h2>
+        <p>
+          Traditional book management in libraries and large personal collections is
+          labor-intensive and physically demanding: librarians must sort returned books,
+          walk shelves to re-shelve items, and patrons still need to search manually for
+          specific titles. The Automatic Bookshelf Managing System (ABMS) addresses this
+          by automating <strong>sorting, placement, and retrieval</strong> of books using a
+          Cartesian gantry, adaptive gripper, and computer-vision-based identification.
+        </p>
+        <p>
+          The system is designed around a 3-axis gantry carrying a rack-and-pinion gripper
+          and a camera for QR-code-based book identification. It targets environments such
+          as public/university libraries, bookstores, archives, and serious home libraries,
+          where high circulation and large collections make manual handling costly and
+          error-prone.
+        </p>
+
+        <div class="pill-list">
+          <span class="pill">Automatic storage & retrieval</span>
+          <span class="pill">Supports 1–10 cm thick books, up to 2.5 kg</span>
+          <span class="pill">QR-code-based book ID & location</span>
+          <span class="pill">Low-cost, modular design</span>
+          <span class="pill">110 V supply compatible</span>
+        </div>
+      </section>
+
+      <!-- SYSTEM ARCHITECTURE -->
+      <section>
+        <h2><span class="icon">🧩</span> System Architecture</h2>
+        <div class="two-column">
+          <div>
+            <p><strong>Subsystems</strong></p>
+            <ul>
+              <li>
+                <strong>Gantry:</strong> 3-axis Cartesian robot built from 20×20 mm aluminum
+                extrusions, driven by NEMA 17 stepper motors via lead screws (Z) and
+                timing belts (X, Y).
+              </li>
+              <li>
+                <strong>Gripper:</strong> 2-plate rack-and-pinion design with servo actuation,
+                rubberized contact surfaces, and a force-sensitive resistor (FSR) to cap
+                gripping force and protect books.
+              </li>
+              <li>
+                <strong>Computer vision:</strong> Camera + OpenCV pipeline for QR code
+                detection; each book is tagged and mapped to shelf coordinates.
+              </li>
+              <li>
+                <strong>Control & database:</strong> Python control stack communicating with an
+                Arduino over serial, managing motions and a CSV-based book location map.
+              </li>
+            </ul>
+
+            <p><strong>Store / Retrieve Flow</strong></p>
+            <ul>
+              <li>
+                <em>Store:</em> Scan book QR → find free shelf gap → move gantry → grip →
+                place → log book ID, shelf layer, X-coordinate, and thickness in CSV.
+              </li>
+              <li>
+                <em>Retrieve:</em> Look up book ID in CSV → move gantry to location → grip →
+                bring to pickup point → update database.
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <div class="image-card">
+              <!-- Replace with a CAD of gantry + axes (Fig.24/19) -->
+              <img
+                src="../assets/images/emsd_gantry.png"
+                alt="EMSD gantry CAD and axis labeling"
+              />
+              <div class="image-caption">
+                Gantry architecture with dual Z-axis linear actuators, X and Y timing-belt
+                stages, and front-mounted gripper for shelf access.
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- GRIPPER & MECH DESIGN -->
+      <section>
+        <h2><span class="icon">🤖</span> Gripper & Mechanical Design</h2>
+        <div class="two-column">
+          <div>
+            <p>
+              The gripper was identified as a critical subsystem: it must securely handle
+              books of varying width and mass without damage, while staying compact enough
+              to fit between shelves. Multiple concepts were generated (stag-beetle clamp,
+              linkage-based parallel plates, rack-and-pinion variants) and evaluated using a
+              decision matrix on stability, load capacity, cost, robustness, and ease of
+              manufacturing.
+            </p>
+            <p>
+              A <strong>rack-and-pinion parallel-plate design</strong> was ultimately selected:
+            </p>
+            <ul>
+              <li>
+                Driving force is aligned with plate motion, minimizing unwanted side
+                loads and friction.
+              </li>
+              <li>
+                The mechanism delivers consistent gripping force across the motion range.
+              </li>
+              <li>
+                Structure is easy to prototype in PLA and later upgrade to machined
+                aluminum.
+              </li>
+              <li>
+                Integrated square FSR pad (1–49 N) limits gripping force to below
+                ~10 N for safety.
+              </li>
+            </ul>
+            <p>
+              FEA results on critical parts (side walls, gear shaft, combined assembly)
+              confirmed stresses and deflections are well below material limits with a
+              safety factor of ~2 for the maximum 2.5 kg book load.
+            </p>
+          </div>
+
+          <div>
+            <div class="image-card">
+              <!-- Replace with gripper CAD or prototype image (Fig.8/9) -->
+              <img
+                src="../assets/images/emsd_gripper.png"
+                alt="Rack-and-pinion gripper CAD and prototype"
+              />
+              <div class="image-caption">
+                Rack-and-pinion gripper with symmetric plates, FSR integration, and
+                servo actuation via gear train.
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ELECTRICAL & SOFTWARE -->
+      <section>
+        <h2><span class="icon">⚡</span> Electrical & Software Stack</h2>
+        <p>
+          The electrical system is built around a 110 V AC to 24 V DC supply feeding
+          four TB6600 stepper drivers and NEMA 17 motors through 2 A fuses, with
+          emphasis on modularity, protection, and thermal management. Limit switches on
+          each axis ensure safe homing and prevent collisions.
+        </p>
+        <ul>
+          <li>
+            <strong>Power:</strong> 110 V → 24 V supply, four 2 A fuses, parallel wiring
+            to TB6600 drivers (800 steps/rev, 2 A max).
+          </li>
+          <li>
+            <strong>Motors:</strong> NEMA 17 stepper motors for gantry axes; servo motor for
+            gripper plates to allow torque control and closed-loop positioning.
+          </li>
+          <li>
+            <strong>Sensing:</strong> Limit switches on linear actuators; FSR in gripper for
+            contact force measurement.
+          </li>
+          <li>
+            <strong>Software:</strong> Python + pySerial for high-level commands, CSV-based
+            storage database, Arduino firmware for low-level axis and gripper control.
+          </li>
+        </ul>
+
+        <div class="metrics-grid">
+          <div class="metric-card">
+            <div class="metric-label">Book size range</div>
+            <div class="metric-value">1–10 cm thickness</div>
+            <div class="metric-note">
+              Supports most standard library books without redesign.
+            </div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label">Max book mass</div>
+            <div class="metric-value">2.5 kg</div>
+            <div class="metric-note">
+              Gripper and gantry structure designed and analyzed for this load.
+            </div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label">Target retrieval time</div>
+            <div class="metric-value">≈ 10–15 s / book</div>
+            <div class="metric-note">
+              From user command to book delivered to pickup point.
+            </div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label">Gripper safety limit</div>
+            <div class="metric-value">&lt; 10 N</div>
+            <div class="metric-note">
+              FSR-based limit prevents book and user damage.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- DEMO & TESTING -->
+      <section>
+        <h2><span class="icon">🎥</span> Demonstration & Testing</h2>
+        <p>
+          The final prototype demonstrates a full <em>store</em> and <em>retrieve</em> cycle:
+          homing sequence, book pickup from a designated drop-off corner, placement at a
+          computed free slot, database update, followed by retrieval back to the pickup
+          zone. Testing verified:
+        </p>
+        <ul>
+          <li>Accurate gantry motion to commanded shelf coordinates.</li>
+          <li>
+            Stable gripping behavior with FSR-controlled force and rubberized contact
+            surfaces.
+          </li>
+          <li>
+            Correct CSV updates for book insertion/removal, avoiding double-storage and
+            tracking free gaps.
+          </li>
+        </ul>
+        <p>
+          Limitations observed include sensitivity to very heavy / oversized books (due
+          to PLA flexibility in the prototype) and testing in relatively ideal scenarios
+          with few books. Future iterations would upgrade to aluminum structures, expand
+          the test set, and integrate with full library inventory software.
+        </p>
+
+        <div class="link-list">
+          <!-- Replace links if you host elsewhere -->
+          <a
+            class="link-button primary"
+            href="https://drive.google.com/drive/folders/12A7nGG5UJaZIP5sTUm3NZFrPg9tfeQiY?usp=sharing"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <span class="icon">🎬</span>
+            <span>Watch Test & Demo Videos</span>
+          </a>
+
+          <a
+            class="link-button"
+            href="https://github.com/zsqu4re/EMSD-Code"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <span class="icon">⚙️</span>
+            <span>Browse EMSD Code</span>
+          </a>
+
+          <a
+            class="link-button"
+            href="https://YOUR-USERNAME.github.io/portfolio/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <span class="icon">🏠</span>
+            <span>Main Portfolio Page</span>
+          </a>
+
+          <a
+            class="link-button"
+            href="https://your-hosted-report-link.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <span class="icon">📄</span>
+            <span>Read Full EMSD Report</span>
+          </a>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      &copy; <span id="year"></span> Ruiyang (Lucas) Zhou · Automatic Bookshelf Managing System (EMSD)
+    </footer>
+  </div>
+
+  <script>
+    // Set current year in footer
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
