@@ -15,8 +15,7 @@ My projects include wheel-loader manipulation in Isaac Sim, RL algorithms, LQG/H
 - Implemented Bezier-based scooping trajectories and SB3 PPO training.  
 - Added particle emitters, walls, randomized rock generation, reward shaping.
 
-🔗 **Repo:** _Add link here after creating it_
-
+🔗 **Repo:** https://gitlab.cerlab.lan.cmu.edu/roboconstruction/isaac-lab/isaaclab_wheelloader_dev.git
 ---
 
 ### 🟧 2. **CarRacing-v2 RL Project — PPO Expert + Diffusion + DAgger**
