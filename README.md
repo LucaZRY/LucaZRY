@@ -107,7 +107,7 @@ into a complete electromechanical system.
 **Links**
 
 Electromechanical gantry–gripper–CV system for automated book storage and retrieval.  
-👉 [EMSD Project Website](https://LucaZRY.github.io/portfolio/emsd/)
+👉 [EMSD Project Website](https://LucaZRY.github.io/LucaZRY/emsd/)
 
 - 🔗 **Code / CAD Repository:** _TODO: `https://github.com/your-username/emsd-project`_  
 - 📄 **Design Report:** _TODO: PDF link_  
