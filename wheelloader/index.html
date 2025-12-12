@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta
     name="description"
-    content="Autonomous wheel-loader scooping in Isaac Sim / IsaacLab: contact-rich simulation, granular interaction, and reinforcement learning for bucket motion."
+    content="Autonomous wheel-loader scooping in Isaac Sim / IsaacLab: contact-rich simulation, granular interaction, and reinforcement learning."
   />
 
   <style>
@@ -80,7 +80,7 @@
 
     /* Headings */
     header { margin-bottom: 22px; }
-    h1 { margin: 8px 0 8px; font-size: 34px; line-height: 1.2; }
+    h1 { margin: 8px 0; font-size: 34px; line-height: 1.2; }
     h2 { margin: 0 0 10px; font-size: 20px; }
     h3 { margin: 18px 0 10px; font-size: 16px; color: #222; }
 
@@ -105,6 +105,7 @@
     }
 
     ul { padding-left: 22px; }
+
     code {
       background: #f4f4f4;
       padding: 2px 6px;
@@ -184,15 +185,8 @@
         <a href="../index.html">← Back to Main Portfolio</a>
       </div>
       <div class="nav-right">
-        <!-- Update these when ready -->
         <a class="chip" href="https://github.com/LucaZRY" target="_blank" rel="noopener">GitHub</a>
         <a class="chip" href="mailto:lucaszhoury@gmail.com">Email</a>
-
-        <!-- Uncomment only when you have real links (avoid broken links on public site)
-        <a class="chip" href="YOUR_CODE_REPO_LINK" target="_blank" rel="noopener">Code</a>
-        <a class="chip" href="YOUR_REPORT_PDF_LINK" target="_blank" rel="noopener">Report (PDF)</a>
-        <a class="chip" href="YOUR_DEMO_VIDEO_LINK" target="_blank" rel="noopener">Demo</a>
-        -->
       </div>
     </nav>
 
@@ -200,22 +194,19 @@
     <header>
       <h1>Wheel Loader RL: Autonomous Scooping in Isaac Sim / IsaacLab</h1>
       <p class="subtitle">
-        A simulation-first project for learning repeatable bucket scooping motions under contact-rich granular interaction,
-        targeting construction automation workflows.
+        Learning contact-rich scooping motions for an articulated wheel loader in high-fidelity physics simulation.
       </p>
 
       <div class="tag-row">
-        <span class="tag">Isaac Sim / IsaacLab</span>
-        <span class="tag">Contact-rich Control</span>
-        <span class="tag">Granular Materials</span>
-        <span class="tag">PPO / RL</span>
-        <span class="tag">Trajectory Baselines</span>
+        <span class="tag">Isaac Sim</span>
+        <span class="tag">IsaacLab</span>
+        <span class="tag">Granular Contact</span>
+        <span class="tag">Reinforcement Learning</span>
+        <span class="tag">Construction Robotics</span>
         <span class="tag">PhysX</span>
       </div>
 
-      <!-- Replace with a real GIF/screenshot. Make sure the file exists to avoid 404. -->
       <img src="../assets/images/wheelloader_hero.png" alt="Wheel loader scooping rollout preview" />
-      <div class="note">Replace with your best rollout GIF/screenshot (e.g., <code>assets/images/wheelloader_demo.gif</code>).</div>
     </header>
 
     <!-- LINKS -->
@@ -223,46 +214,39 @@
       <h2>Links</h2>
       <div class="btn-row">
         <a class="btn" href="../index.html">Main Portfolio</a>
-
-        <!-- Avoid TODO/broken links. Uncomment only when ready. -->
-        <!-- <a class="btn" href="YOUR_CODE_REPO_LINK" target="_blank" rel="noopener">Code Repository</a> -->
-        <!-- <a class="btn" href="../assets/reports/wheelloader_report.pdf" target="_blank" rel="noopener">Report / Slides (PDF)</a> -->
-        <!-- <a class="btn" href="https://youtu.be/YOUR_VIDEO" target="_blank" rel="noopener">Demo Video</a> -->
+        <!--
+        <a class="btn" href="YOUR_CODE_REPO_LINK" target="_blank">Code Repository</a>
+        <a class="btn" href="YOUR_DEMO_VIDEO_LINK" target="_blank">Demo Video</a>
+        -->
       </div>
-      <div class="note">Tip: Code + a short demo video usually makes this page far more credible to skimmers.</div>
     </section>
 
-    <!-- OBJECTIVE / METRICS -->
+    <!-- OBJECTIVE & METRICS -->
     <section>
       <h2>Objective &amp; Metrics</h2>
       <p>
-        This project investigates whether reinforcement learning can produce smooth, reliable, and efficient scooping motions
-        for a wheel loader in simulation. The emphasis is on repeatability under granular contact, while respecting actuator
-        limits and discouraging unstable force/torque spikes.
+        The goal of this project is to train an autonomous wheel loader to perform stable, repeatable
+        scooping motions under granular contact. The emphasis is on bucket fill consistency,
+        actuator smoothness, and robustness to pile variation.
       </p>
 
       <div class="grid">
         <div class="metric">
           <div class="label">Primary objective</div>
-          <div class="value">Consistent scooping with high fill</div>
+          <div class="value">Consistent scooping behavior</div>
         </div>
         <div class="metric">
           <div class="label">Task metric</div>
-          <div class="value">Bucket fill proxy / payload lifted</div>
+          <div class="value">Bucket fill proxy</div>
         </div>
         <div class="metric">
           <div class="label">Stability metric</div>
-          <div class="value">Torque spikes / oscillation rate</div>
+          <div class="value">Torque / oscillation penalties</div>
         </div>
         <div class="metric">
           <div class="label">Generalization metric</div>
-          <div class="value">Success across randomized piles</div>
+          <div class="value">Success across pile variations</div>
         </div>
-      </div>
-
-      <div class="note">
-        When you have numbers, replace these with concrete values (e.g., “Success: 84% over 100 eval episodes”,
-        “Peak torque reduced by 35% vs baseline”).
       </div>
     </section>
 
@@ -270,25 +254,26 @@
     <section>
       <h2>Introduction</h2>
       <p>
-        Wheel loaders execute repetitive scooping and loading cycles in construction and mining. These tasks are physically demanding
-        and sensitive to operator skill, pile geometry, and contact dynamics. Autonomous scooping is challenging because it involves
-        underactuated vehicle motion, articulated linkage dynamics, and contact-rich interaction with granular material.
+        Wheel loaders are central to construction and mining operations, executing repetitive
+        scooping and loading cycles in highly unstructured environments. Automating these tasks
+        is challenging due to articulated dynamics, underactuated vehicle motion, and
+        contact-rich interaction with granular material.
       </p>
       <p>
-        To study the problem in a controlled setting, I built a high-fidelity simulation in <strong>Isaac Sim / IsaacLab</strong>
-        with an articulated arm + bucket, realistic joint limits, and rock pile interaction. The core question is whether a learned
-        policy can outperform a hand-designed motion baseline in bucket fill and stability while generalizing across pile variations.
+        This project explores whether reinforcement learning can produce robust scooping policies
+        in a simulation-first setting using <strong>Isaac Sim / IsaacLab</strong>, providing a testbed
+        for future sim-to-real transfer.
       </p>
     </section>
 
-    <!-- PIPELINE OVERVIEW -->
+    <!-- SYSTEM PIPELINE -->
     <section>
       <h2>System Pipeline</h2>
       <ul>
-        <li><strong>Simulation environment:</strong> articulated loader model + granular pile interaction + task reset/randomization.</li>
-        <li><strong>Baseline motion:</strong> Bézier/scripted scooping trajectory for initialization and debugging.</li>
-        <li><strong>RL training:</strong> PPO-style continuous control using reward shaping for fill, smoothness, and constraint compliance.</li>
-        <li><strong>Evaluation:</strong> fixed settings + randomized pile tests; analyze fill proxy, stability, and failure modes.</li>
+        <li>High-fidelity articulated loader simulation with granular rock piles.</li>
+        <li>Scripted/Bézier motion baselines for debugging and comparison.</li>
+        <li>PPO-style RL with reward shaping for fill, smoothness, and safety.</li>
+        <li>Evaluation across randomized pile configurations.</li>
       </ul>
     </section>
 
@@ -296,61 +281,44 @@
     <section>
       <h2>Methods</h2>
 
-      <h3>Simulation &amp; Environment Design</h3>
+      <h3>Simulation Environment</h3>
       <ul>
-        <li>Built a custom Isaac Sim / IsaacLab environment for scooping with realistic joint/actuator limits and PD-based control.</li>
-        <li>Modeled rock piles as granular rigid bodies / particle-like sets with tuned friction/contact parameters.</li>
-        <li>Added scene assets (e.g., boundaries/walls) to control pile containment and encourage repeatable interactions.</li>
+        <li>Custom IsaacLab environment with articulated arm and bucket joints.</li>
+        <li>Granular piles modeled using rigid bodies / particle-like approximations.</li>
+        <li>Joint limits, actuator constraints, and PD control integrated.</li>
       </ul>
 
       <h3>Observations &amp; Actions</h3>
       <ul>
-        <li><strong>Observations:</strong> joint positions/velocities, bucket pose, and task-relevant signals (e.g., contact cues / pile features as available).</li>
-        <li><strong>Actions:</strong> continuous torque commands or joint velocity targets for arm and bucket joints (depending on controller mode).</li>
+        <li><strong>Observations:</strong> joint states, bucket pose, task-relevant contact signals.</li>
+        <li><strong>Actions:</strong> continuous joint commands for arm and bucket actuation.</li>
       </ul>
 
-      <h3>Reward Shaping</h3>
+      <h3>Reward Design</h3>
       <ul>
-        <li>Encouraged scooping success via a bucket-fill proxy (payload lifted / retained).</li>
-        <li>Penalized energy usage and high-frequency oscillation to promote smooth actuator profiles.</li>
-        <li>Added safety terms for joint limit violations, unstable impacts, and undesirable contacts.</li>
+        <li>Positive reward for payload retained in the bucket.</li>
+        <li>Penalties for excessive torque, oscillations, and unsafe contacts.</li>
+        <li>Terminal penalties for failed scooping attempts.</li>
       </ul>
-
-      <h3>Architecture / Debug Artifacts</h3>
-      <p>
-        The figure below is a placeholder for your architecture diagram (environment → policy → action → physics → reward).
-      </p>
-      <img src="../assets/images/wheelloader_architecture.png" alt="Wheel loader RL system architecture diagram" />
     </section>
 
     <!-- RESULTS -->
     <section>
       <h2>Results</h2>
       <p>
-        In simulation, the learned policy produced smoother and more consistent scooping behaviors than the scripted baseline.
-        Qualitatively, the policy improved bucket penetration and reduced abrupt reversals that typically cause torque spikes.
+        In simulation, the learned policy achieved smoother and more repeatable scooping motions
+        than scripted baselines. The policy reduced abrupt reversals during pile penetration and
+        exhibited improved stability across moderate pile variations.
       </p>
 
       <ul>
-        <li><strong>Bucket fill:</strong> improved fill consistency across randomized piles (within training range).</li>
-        <li><strong>Stability:</strong> reduced torque spikes and fewer oscillatory corrections during penetration/lift phases.</li>
-        <li><strong>Robustness:</strong> better tolerance to moderate pile-shape variation compared to a fixed scripted motion.</li>
+        <li>Improved consistency in bucket fill across evaluation episodes.</li>
+        <li>Reduced torque spikes compared to baseline motions.</li>
+        <li>Better tolerance to pile shape variation.</li>
       </ul>
 
-      <!-- Optional: add plots when you have them.
-           Make sure these files exist to avoid 404s.
-      -->
-      <!--
-      <img src="../assets/images/wheelloader_fill_curve.png" alt="Bucket fill proxy over training" />
-      <img src="../assets/images/wheelloader_torque_profiles.png" alt="Torque profile comparison" />
-      -->
-
-      <div class="note">Tip: one “fill vs time” plot + one torque-profile comparison image is usually very convincing.</div>
-
-      <!-- Optional demo video -->
       <video controls>
         <source src="../assets/videos/wheelloader_demo.mp4" type="video/mp4" />
-        Your browser does not support the video tag.
       </video>
     </section>
 
@@ -358,14 +326,14 @@
     <section>
       <h2>Discussion</h2>
       <p>
-        The results support the premise that reinforcement learning can improve scooping quality in a physics-based simulator,
-        especially when the reward explicitly encodes stability and constraint compliance. The largest practical challenges were
-        enforcing consistent control interfaces (PD vs torque modes), stabilizing contact dynamics for granular media, and designing
-        reward terms that avoid pathological “hacks” while still providing learnable signal.
+        This project highlights the importance of reward design and stable contact modeling
+        in learning contact-rich manipulation behaviors. While the policy performs well within
+        the training regime, generalization to wider pile distributions and real hardware
+        remains an open challenge.
       </p>
       <p>
-        Future work includes stronger domain randomization for sim-to-real transfer, perception-driven conditioning (pile geometry from sensors),
-        and integration with higher-level task planning (approach, align, scoop, lift, dump).
+        Future work includes stronger domain randomization, perception-conditioned policies,
+        and hierarchical task decomposition for full loading cycles.
       </p>
     </section>
 
@@ -373,11 +341,11 @@
     <section>
       <h2>My Contribution</h2>
       <ul>
-        <li>Built the Isaac Sim / IsaacLab scooping environment and integrated loader articulation + controls.</li>
-        <li>Implemented scripted/Bézier baselines to debug kinematics, contacts, and feasible trajectories.</li>
-        <li>Designed reward shaping for fill, smoothness, and constraint compliance; ran RL training experiments.</li>
-        <li>Collected rollouts, analyzed failure modes, and curated media/figures for portfolio presentation.</li>
-        <li>Authored this webpage and organized assets for publication.</li>
+        <li>Designed and implemented the Isaac Sim / IsaacLab scooping environment.</li>
+        <li>Built scripted motion baselines and reward shaping.</li>
+        <li>Trained and evaluated RL policies under granular contact.</li>
+        <li>Analyzed failure modes and prepared portfolio visualizations.</li>
+        <li>Authored this project webpage.</li>
       </ul>
     </section>
 
