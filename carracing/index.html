@@ -1,263 +1,109 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>CarRacing RL – Generative Trajectory Aggregation | Ruiyang (Lucas) Zhou</title>
+  <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta
-    name="description"
-    content="GTA: Generative Trajectory Aggregation – combining diffusion models, distillation, and DAgger for continuous control in the CarRacing-v2 environment."
-  />
-  <style>
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      background: #0d1117;
-      color: #e6edf3;
-      margin: 0;
-      padding: 0;
-      line-height: 1.6;
-    }
-    a { color: #4fd1c5; }
-    .container {
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 24px;
-    }
-    header {
-      margin-bottom: 32px;
-    }
-    h1, h2, h3 {
-      color: #58a6ff;
-    }
-    img, video {
-      width: 100%;
-      border-radius: 12px;
-      margin: 12px 0;
-      border: 1px solid #30363d;
-    }
-    section {
-      background: #161b22;
-      padding: 20px;
-      margin: 18px 0;
-      border-radius: 12px;
-      border: 1px solid #30363d;
-    }
-    nav a {
-      background: #21262d;
-      padding: 8px 14px;
-      border-radius: 8px;
-      text-decoration: none;
-      color: #e6edf3;
-      border: 1px solid #30363d;
-    }
-    nav a:hover {
-      background: #30363d;
-    }
-    ul {
-      padding-left: 22px;
-    }
-  </style>
+  <title>CarRacing RL | Lucas Zhou</title>
+  <meta name="description" content="CarRacing-v2: PPO expert, DAgger, diffusion-based distillation." />
+  <link rel="stylesheet" href="../assets/css/site.css">
 </head>
 
 <body>
-  <div class="container">
-
-    <!-- 🔙 Back to main site -->
-    <nav>
-      <a href="../index.html">← Back to Main Portfolio</a>
-    </nav>
-
-    <!-- ⭐ HERO -->
-    <header>
-      <h1>CarRacing RL: Generative Trajectory Aggregation (GTA)</h1>
-      <p>
-        Course project for <strong>10-703 Deep Reinforcement Learning</strong> exploring how
-        diffusion models, distillation, and DAgger can be combined to improve continuous control
-        in the CarRacing-v2 environment.
-      </p>
-      <!-- Replace with a real screenshot from CarRacing -->
-      <img src="../assets/images/carracing_hero.png" alt="CarRacing-v2 racetrack and agent view" />
+  <div class="page">
+    <header class="topnav">
+      <a class="back-link" href="../index.html">← Back to main portfolio</a>
+      <div class="topnav-right">
+        <a class="chip highlight" href="https://github.com/LucaZRY/10703DeepRL_Project" target="_blank" rel="noopener">Code</a>
+        <a class="chip" href="mailto:lucaszhoury@gmail.com">Email</a>
+      </div>
     </header>
 
-    <!-- 🟦 INTRODUCTION -->
-    <section>
-      <h2>Introduction</h2>
-      <p>
-        Standard imitation learning in continuous-control tasks is heavily constrained by the
-        quantity and quality of expert data. Once a small set of demonstrations has been
-        collected, it is difficult to cover the wide variety of states that arise when a
-        learned policy starts to drift off the expert’s trajectory.
-      </p>
-      <p>
-        This project, called <strong>GTA: Generative Trajectory Aggregation</strong>, investigates
-        whether a <strong>trajectory diffusion model</strong> can act as a generative expert for
-        CarRacing-v2. The central idea is to train a diffusion policy on expert rollouts, use it
-        to generate synthetic expert trajectories, and then distill these trajectories into a
-        lightweight student policy via behavior cloning and DAgger. The goal is to improve sample
-        efficiency and robustness compared to training directly on the limited original expert
-        data.
-      </p>
-    </section>
+    <main class="stack">
+      <!-- HERO -->
+      <section class="hero">
+        <div class="hero-text">
+          <div class="badge"><span class="dot"></span> 10-703 Deep Reinforcement Learning · CMU</div>
+          <h1>CarRacing RL: PPO → DAgger → Diffusion Distillation</h1>
+          <p class="subtitle">
+            Training an expert policy and distilling robust student policies using imitation learning
+            and generative trajectory augmentation in CarRacing-v2.
+          </p>
 
-    <!-- 🧠 METHODS -->
-    <section>
-      <h2>Methods</h2>
+          <div class="tags">
+            <span class="tag">Gymnasium CarRacing-v2</span>
+            <span class="tag">PPO</span>
+            <span class="tag">DAgger</span>
+            <span class="tag">Diffusion</span>
+            <span class="tag">Offline Dataset</span>
+          </div>
 
-      <h3>Environment and Expert Data</h3>
-      <p>
-        All experiments are conducted in the <strong>Gymnasium CarRacing-v2</strong> environment
-        with grayscale observations resized to 84×84 and stacked over four frames. The expert
-        policy is an off-the-shelf continuous-action PPO controller trained on CarRacing-v2; its
-        rollouts provide the initial demonstration dataset of state–action trajectories.
-      </p>
+          <div class="meta">
+            <span><b>Role:</b> Lead implementation (training + dataset + DAgger)</span>
+            <span><b>Timeline:</b> Fall 2025</span>
+          </div>
+        </div>
 
-      <h3>Trajectory Diffusion Expert</h3>
-      <p>
-        The diffusion expert is a <strong>policy diffusion transformer</strong> that predicts the
-        noise added to future actions conditioned on a history of states and actions. Training
-        follows the standard denoising diffusion probabilistic model (DDPM) setup:
-      </p>
-      <ul>
-        <li>Expert trajectories are padded and masked to handle variable lengths.</li>
-        <li>States and actions are normalized using global statistics over valid time-steps.</li>
-        <li>For each batch element, a diffusion timestep <em>t</em> and Gaussian noise are sampled.</li>
-        <li>Noisy actions are formed and the transformer predicts the noise to be removed.</li>
-        <li>Loss is mean-squared error on non-padded entries.</li>
-      </ul>
-      <p>
-        After training, the model generates trajectories by running the reverse diffusion process:
-        starting from Gaussian noise in action space and iteratively denoising using the learned
-        transformer and an inference scheduler.
-      </p>
+        <div class="hero-visual">
+          <img src="../assets/images/carracing_hero.png" alt="CarRacing policy rollout" />
+          <p class="note">Replace with a real screenshot/GIF of your best run.</p>
+        </div>
+      </section>
 
-      <h3>Student Policies and Distillation</h3>
-      <p>
-        To evaluate the benefit of synthetic trajectories, two student policies are compared:
-      </p>
-      <ul>
-        <li>
-          A baseline student trained only on the original PPO expert demonstrations.
-        </li>
-        <li>
-          A distilled student trained on a larger dataset of <strong>diffusion-generated</strong>
-          synthetic trajectories.
-        </li>
-      </ul>
-      <p>
-        The student is a compact convolutional policy: a CNN encoder maps stacked frames to a state
-        embedding, followed by fully connected layers that output steering, gas, and brake. Training
-        uses standard behavior cloning with mean-squared error on continuous actions.
-      </p>
+      <!-- OVERVIEW -->
+      <section class="card">
+        <h2>Project Overview</h2>
+        <p>
+          Goal: improve continuous-control imitation learning robustness when student policies drift off
+          the expert’s trajectory distribution.
+        </p>
+        <div class="pill-list">
+          <span class="pill">Expert: PPO</span>
+          <span class="pill">Student: CNN policy</span>
+          <span class="pill">Data: expert rollouts + synthetic</span>
+          <span class="pill">On-policy correction: DAgger</span>
+        </div>
+      </section>
 
-      <h3>DAgger Pipeline</h3>
-      <p>
-        On top of offline distillation, a lightweight <strong>DAgger</strong> framework is used to
-        collect on-policy data. The implementation is designed to be expert-agnostic: any expert
-        (PPO or diffusion) only needs to implement an <code>act(obs)</code> method.
-      </p>
-      <ul>
-        <li>
-          The student runs in the environment and visits states that may lie off the original
-          expert trajectories.
-        </li>
-        <li>
-          At each visited state, the expert provides a corrective action label.
-        </li>
-        <li>
-          State–action pairs are added to an <code>ImitationDataset</code> that grows over
-          DAgger iterations.
-        </li>
-        <li>
-          The student is periodically updated on the aggregated dataset.
-        </li>
-      </ul>
+      <!-- METHODS -->
+      <section class="card">
+        <h2>Methods</h2>
+        <ul>
+          <li>Train PPO expert and export rollout dataset (obs/action/terminal).</li>
+          <li>Train diffusion model on trajectories to generate synthetic supervision.</li>
+          <li>Behavior cloning distillation into a lightweight student network.</li>
+          <li>DAgger loop to label on-policy states with expert corrections.</li>
+        </ul>
+      </section>
 
-      <!-- Optional architecture / diagram image -->
-      <img src="../assets/images/carracing_architecture.png"
-           alt="High-level architecture of diffusion expert, DAgger loop, and distilled student" />
-    </section>
+      <!-- RESULTS -->
+      <section class="card">
+        <h2>Results</h2>
+        <p>
+          Add 2–4 quantitative results here (return mean ± std, success rate, dataset size, etc.).
+        </p>
+        <div class="metrics">
+          <div class="metric"><div class="label">Best avg return</div><div class="value">TBD</div></div>
+          <div class="metric"><div class="label">Dataset size</div><div class="value">TBD</div></div>
+          <div class="metric"><div class="label">DAgger iterations</div><div class="value">TBD</div></div>
+        </div>
+      </section>
 
-    <!-- 📈 RESULTS -->
-    <section>
-      <h2>Results</h2>
-      <p>
-        As a first validation step, the diffusion pipeline was tested on <em>synthetic</em>
-        trajectory data with sinusoidal patterns in the actions. The diffusion expert’s noise
-        prediction loss decreased from about 1.30 at the beginning of training to around
-        0.08–0.18 in later stages, confirming that the model can learn to denoise structured
-        action trajectories instead of memorizing noise.
-      </p>
-      <p>
-        The DAgger loop was then run with a PPO expert on real CarRacing-v2 rollouts. A student
-        trained on 5,000 expert samples achieved higher returns than the raw expert dataset
-        (average return ≈ −23.6 vs. ≈ −45). Over five DAgger iterations, the dataset expanded to
-        20,000 samples. Imitation loss decreased steadily, while evaluation returns fluctuated
-        between roughly −49 and −18, reflecting the instability of PPO’s corrective labels but
-        also demonstrating that the pipeline is functioning end-to-end.
-      </p>
-      <p>
-        These preliminary results show that:
-      </p>
-      <ul>
-        <li>The diffusion expert can model trajectory-level structure on toy data.</li>
-        <li>The DAgger infrastructure successfully aggregates off-distribution states.</li>
-        <li>Even with imperfect experts, student policies can outperform the initial demos.</li>
-      </ul>
+      <!-- LINKS -->
+      <section class="card">
+        <h2>Links</h2>
+        <div class="links">
+          <a class="btn primary" href="https://github.com/LucaZRY/10703DeepRL_Project" target="_blank" rel="noopener">Code</a>
+          <a class="btn" href="../assets/resume/Lucas_Zhou_Resume.pdf">Resume</a>
+          <a class="btn" href="../index.html#contact">Contact</a>
+        </div>
+      </section>
+    </main>
 
-      <!-- Optional: embed a short driving demo -->
-      <video controls>
-        <source src="../assets/videos/carracing_demo.mp4" type="video/mp4" />
-        Your browser does not support the video tag.
-      </video>
-    </section>
-
-    <!-- 💬 DISCUSSION -->
-    <section>
-      <h2>Discussion</h2>
-      <p>
-        GTA highlights both the promise and the practical challenges of using diffusion models as
-        generative experts in interactive control settings. On the positive side, trajectory
-        diffusion offers a principled way to synthesize new expert-like rollouts that preserve
-        global structure and can be used for distillation. However, integrating diffusion with
-        DAgger requires careful data matching, consistent preprocessing, and stable expert labels.
-      </p>
-      <p>
-        The next stage of this work focuses on training the diffusion expert directly on PPO
-        trajectories from CarRacing-v2, generating large synthetic datasets, and comparing three
-        conditions:
-      </p>
-      <ul>
-        <li>Student trained only on original expert data.</li>
-        <li>Student trained on diffusion-generated trajectories.</li>
-        <li>
-          Student trained with DAgger where the diffusion model serves as the expert and provides
-          generative recovery behavior.
-        </li>
-      </ul>
-      <p>
-        Longer-term, the project aims to replace PPO trajectories with <strong>real F1 telemetry</strong>,
-        converting racing logs into observation–action sequences compatible with the current
-        pipeline. This would test whether diffusion-based supervision can generalize from simulation
-        to structured real-world driving data.
-      </p>
-    </section>
-
-    <!-- 👤 MY CONTRIBUTION -->
-    <section>
-      <h2>My Contribution</h2>
-      <p>
-        Within the project team, I primarily focused on the <strong>DAgger components</strong> and
-        expert data handling:
-      </p>
-      <ul>
-        <li>Implemented the continuous-control DAgger loop for CarRacing-v2.</li>
-        <li>Designed the expert-agnostic interface so PPO or diffusion experts can be swapped in.</li>
-        <li>Built the data collection, aggregation, and preprocessing pipeline for expert and student trajectories.</li>
-        <li>Ran initial DAgger experiments and evaluated student performance.</li>
-        <li>Co-wrote the project report and helped integrate the diffusion and DAgger components.</li>
-      </ul>
-    </section>
-
+    <footer class="footer">
+      © <span id="y"></span> Lucas Zhou
+    </footer>
   </div>
+
+  <script>document.getElementById("y").textContent = new Date().getFullYear();</script>
 </body>
 </html>
