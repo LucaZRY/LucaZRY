@@ -1,109 +1,376 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
+  <meta charset="UTF-8" />
+  <title>OCRL Project – Bipedal Wheel Robot LQR Control | Ruiyang (Lucas) Zhou</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>CarRacing RL | Lucas Zhou</title>
-  <meta name="description" content="CarRacing-v2: PPO expert, DAgger, diffusion-based distillation." />
-  <link rel="stylesheet" href="../assets/css/site.css">
+  <meta
+    name="description"
+    content="OCRL course project on LQR-based balance control and Virtual Model Control (VMC) for a bipedal wheel robot in simulation."
+  />
+
+  <style>
+    :root {
+      --max: 980px;
+      --border: #e5e5e5;
+      --muted: #444;
+      --bg: #ffffff;
+      --card: #ffffff;
+      --link: #0b66c3;
+      --soft: #f6f6f6;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: var(--bg);
+      color: #111;
+      margin: 0;
+      padding: 0;
+      line-height: 1.65;
+    }
+
+    a { color: var(--link); }
+
+    .container {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 36px 18px;
+    }
+
+    /* Top nav */
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 18px;
+      flex-wrap: wrap;
+    }
+
+    .nav-left a {
+      display: inline-block;
+      padding: 10px 12px;
+      border-radius: 10px;
+      text-decoration: none;
+      color: #111;
+      border: 1px solid var(--border);
+      background: #fff;
+    }
+
+    .nav-left a:hover { background: var(--soft); }
+
+    .nav-right {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .chip {
+      display: inline-block;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      text-decoration: none;
+      color: #111;
+      background: #fff;
+      font-size: 14px;
+    }
+
+    .chip:hover { background: var(--soft); }
+
+    /* Headings */
+    header { margin-bottom: 22px; }
+    h1 { margin: 8px 0 8px; font-size: 34px; line-height: 1.2; }
+    h2 { margin: 0 0 10px; font-size: 20px; }
+    h3 { margin: 18px 0 10px; font-size: 16px; color: #222; }
+
+    .subtitle { color: var(--muted); margin: 6px 0 14px; }
+
+    /* Cards */
+    section {
+      background: var(--card);
+      padding: 18px;
+      margin: 14px 0;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      box-shadow: 0 1px 0 rgba(0,0,0,0.02);
+    }
+
+    img, video {
+      width: 100%;
+      border-radius: 14px;
+      margin: 12px 0;
+      border: 1px solid var(--border);
+      background: #fafafa;
+    }
+
+    ul { padding-left: 22px; }
+    code {
+      background: #f4f4f4;
+      padding: 2px 6px;
+      border-radius: 6px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 12px;
+    }
+
+    .metric {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px;
+      background: #fff;
+    }
+
+    .metric .label { color: var(--muted); font-size: 13px; }
+    .metric .value { font-size: 16px; font-weight: 600; margin-top: 6px; }
+
+    .note { color: var(--muted); font-size: 13px; margin-top: 6px; }
+
+    .btn-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 8px;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 10px 12px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: #fff;
+      text-decoration: none;
+      color: #111;
+    }
+
+    .btn:hover { background: var(--soft); }
+
+    footer {
+      margin-top: 34px;
+      padding-top: 16px;
+      border-top: 1px solid #eee;
+      color: #666;
+      font-size: 13px;
+    }
+  </style>
 </head>
 
 <body>
-  <div class="page">
-    <header class="topnav">
-      <a class="back-link" href="../index.html">← Back to main portfolio</a>
-      <div class="topnav-right">
-        <a class="chip highlight" href="https://github.com/LucaZRY/10703DeepRL_Project" target="_blank" rel="noopener">Code</a>
-        <a class="chip" href="mailto:lucaszhoury@gmail.com">Email</a>
+  <div class="container">
+
+    <!-- TOP NAV -->
+    <nav>
+      <div class="nav-left">
+        <a href="../index.html">← Back to Main Portfolio</a>
       </div>
+      <div class="nav-right">
+        <!-- Update these when ready -->
+        <a class="chip" href="https://github.com/LucaZRY" target="_blank" rel="noopener">GitHub</a>
+        <a class="chip" href="mailto:lucaszhoury@gmail.com">Email</a>
+        <!-- Example: add report/code when available
+        <a class="chip" href="YOUR_REPORT_PDF_LINK" target="_blank" rel="noopener">Report (PDF)</a>
+        <a class="chip" href="YOUR_CODE_REPO_LINK" target="_blank" rel="noopener">Code</a>
+        -->
+      </div>
+    </nav>
+
+    <!-- HERO -->
+    <header>
+      <h1>OCRL Project: LQR-Based Balance Control for a Bipedal Wheel Robot</h1>
+      <p class="subtitle">
+        Course project for <strong>Optimal Control &amp; Reinforcement Learning (OCRL)</strong>:
+        designing and simulating an LQR + Virtual Model Control framework for a bipedal wheel robot with a five-bar leg mechanism.
+      </p>
+
+      <!-- Replace with a real figure from your report / simulation -->
+      <img src="../assets/images/ocrl_hero.png" alt="Bipedal wheel robot illustration" />
+      <div class="note">Tip: use a screenshot from your simulation or a clean diagram from your report.</div>
     </header>
 
-    <main class="stack">
-      <!-- HERO -->
-      <section class="hero">
-        <div class="hero-text">
-          <div class="badge"><span class="dot"></span> 10-703 Deep Reinforcement Learning · CMU</div>
-          <h1>CarRacing RL: PPO → DAgger → Diffusion Distillation</h1>
-          <p class="subtitle">
-            Training an expert policy and distilling robust student policies using imitation learning
-            and generative trajectory augmentation in CarRacing-v2.
-          </p>
+    <!-- QUICK LINKS (OPTIONAL BUT USEFUL) -->
+    <section>
+      <h2>Links</h2>
+      <div class="btn-row">
+        <!-- Replace TODOs with real links -->
+        <a class="btn" href="../index.html">Main Portfolio</a>
+        <!-- <a class="btn" href="YOUR_CODE_REPO_LINK" target="_blank" rel="noopener">Code Repository</a> -->
+        <!-- <a class="btn" href="YOUR_REPORT_PDF_LINK" target="_blank" rel="noopener">Report (PDF)</a> -->
+        <!-- <a class="btn" href="YOUR_DEMO_VIDEO_LINK" target="_blank" rel="noopener">Demo Video</a> -->
+      </div>
+      <div class="note">Do not leave broken links on the public site—either provide the link or remove the button.</div>
+    </section>
 
-          <div class="tags">
-            <span class="tag">Gymnasium CarRacing-v2</span>
-            <span class="tag">PPO</span>
-            <span class="tag">DAgger</span>
-            <span class="tag">Diffusion</span>
-            <span class="tag">Offline Dataset</span>
-          </div>
+    <!-- OBJECTIVE / METRICS -->
+    <section>
+      <h2>Objective &amp; Metrics</h2>
+      <p>
+        The goal is to stabilize an underactuated bipedal wheel robot around an upright equilibrium while coordinating wheel/hip/leg torques
+        under changing leg geometry. The controller combines <strong>LQR</strong> (body regulation) with <strong>Virtual Model Control (VMC)</strong>
+        (task-space force → joint torque mapping).
+      </p>
 
-          <div class="meta">
-            <span><b>Role:</b> Lead implementation (training + dataset + DAgger)</span>
-            <span><b>Timeline:</b> Fall 2025</span>
-          </div>
+      <div class="grid">
+        <div class="metric">
+          <div class="label">Primary objective</div>
+          <div class="value">Upright balance + stable tracking</div>
         </div>
-
-        <div class="hero-visual">
-          <img src="../assets/images/carracing_hero.png" alt="CarRacing policy rollout" />
-          <p class="note">Replace with a real screenshot/GIF of your best run.</p>
+        <div class="metric">
+          <div class="label">Stability metric</div>
+          <div class="value">Body pitch near 0 rad (TBD threshold)</div>
         </div>
-      </section>
-
-      <!-- OVERVIEW -->
-      <section class="card">
-        <h2>Project Overview</h2>
-        <p>
-          Goal: improve continuous-control imitation learning robustness when student policies drift off
-          the expert’s trajectory distribution.
-        </p>
-        <div class="pill-list">
-          <span class="pill">Expert: PPO</span>
-          <span class="pill">Student: CNN policy</span>
-          <span class="pill">Data: expert rollouts + synthetic</span>
-          <span class="pill">On-policy correction: DAgger</span>
+        <div class="metric">
+          <div class="label">Tracking metric</div>
+          <div class="value">Velocity / gait reference tracking (TBD)</div>
         </div>
-      </section>
-
-      <!-- METHODS -->
-      <section class="card">
-        <h2>Methods</h2>
-        <ul>
-          <li>Train PPO expert and export rollout dataset (obs/action/terminal).</li>
-          <li>Train diffusion model on trajectories to generate synthetic supervision.</li>
-          <li>Behavior cloning distillation into a lightweight student network.</li>
-          <li>DAgger loop to label on-policy states with expert corrections.</li>
-        </ul>
-      </section>
-
-      <!-- RESULTS -->
-      <section class="card">
-        <h2>Results</h2>
-        <p>
-          Add 2–4 quantitative results here (return mean ± std, success rate, dataset size, etc.).
-        </p>
-        <div class="metrics">
-          <div class="metric"><div class="label">Best avg return</div><div class="value">TBD</div></div>
-          <div class="metric"><div class="label">Dataset size</div><div class="value">TBD</div></div>
-          <div class="metric"><div class="label">DAgger iterations</div><div class="value">TBD</div></div>
+        <div class="metric">
+          <div class="label">Robustness factor</div>
+          <div class="value">Leg-length variation (gain scheduling)</div>
         </div>
-      </section>
+      </div>
+    </section>
 
-      <!-- LINKS -->
-      <section class="card">
-        <h2>Links</h2>
-        <div class="links">
-          <a class="btn primary" href="https://github.com/LucaZRY/10703DeepRL_Project" target="_blank" rel="noopener">Code</a>
-          <a class="btn" href="../assets/resume/Lucas_Zhou_Resume.pdf">Resume</a>
-          <a class="btn" href="../index.html#contact">Contact</a>
-        </div>
-      </section>
-    </main>
+    <!-- INTRODUCTION -->
+    <section>
+      <h2>Introduction</h2>
+      <p>
+        Bipedal wheeled robots combine the agility of legged locomotion with the efficiency of wheels, making them attractive for navigating
+        cluttered indoor spaces and uneven terrain. However, balancing such systems is challenging because of their nonlinear, underactuated
+        dynamics and changing ground contact conditions.
+      </p>
+      <p>
+        This project develops a <strong>Linear Quadratic Regulator (LQR)</strong>–based balance controller, combined with
+        <strong>Virtual Model Control (VMC)</strong>, for a simplified bipedal wheel robot model. The goal is to stabilize the robot’s body posture,
+        coordinate leg and wheel torques, and track desired motions in simulation, building a foundation for future hardware deployment.
+      </p>
+    </section>
 
-    <footer class="footer">
-      © <span id="y"></span> Lucas Zhou
+    <!-- METHODS -->
+    <section>
+      <h2>Methods</h2>
+
+      <h3>Dynamic Modeling</h3>
+      <p>
+        To make the control problem tractable, the full five-bar leg structure is first reduced to a planar model consisting of a wheel, a rigid leg,
+        and a rigid body. The configuration is described by wheel translation, leg pitch angle, and body pitch angle, actuated by a wheel motor torque
+        and a hip torque. Using Newton–Euler equations, the coupled dynamics are derived and then rewritten in first-order state-space form:
+      </p>
+      <ul>
+        <li>State vector <em>x</em> includes joint angles, positions, and their velocities.</li>
+        <li>Input vector <em>u</em> contains the wheel and hip torques.</li>
+        <li>The system is linearized about the upright equilibrium.</li>
+      </ul>
+
+      <h3>LQR Design with Gain Scheduling</h3>
+      <p>
+        On the linearized model, an LQR controller is designed to minimize a quadratic cost on state deviation and control effort. The controller uses
+        full-state feedback <code>u = -K x</code>, where the gain matrix <code>K</code> is obtained by solving the continuous-time algebraic Riccati equation.
+      </p>
+      <p>
+        Because the robot’s effective leg length changes during motion, the dynamics – and thus the optimal gains – vary with configuration. To handle this,
+        <strong>gain scheduling</strong> is used:
+      </p>
+      <ul>
+        <li>Compute LQR gains offline for discrete leg lengths.</li>
+        <li>Fit cubic polynomials to each gain entry as a function of leg length.</li>
+        <li>Interpolate <code>K(L₀)</code> online based on the current leg geometry.</li>
+      </ul>
+
+      <h3>Virtual Model Control (VMC)</h3>
+      <p>
+        For the planar five-bar leg, Virtual Model Control is used to map task-space virtual forces into joint torques. A virtual spring–damper in task
+        space generates desired vertical support force and leg orientation; these forces are projected into joint space using the Jacobian transpose:
+      </p>
+      <ul>
+        <li>Task variables: leg length <em>L₀</em> and leg orientation.</li>
+        <li>Virtual force vector <em>F</em> encodes desired behavior (e.g., support, damping).</li>
+        <li>Joint torques are computed as <code>T = Jᵀ F</code>.</li>
+      </ul>
+      <p>
+        The final closed-loop controller combines LQR body regulation with VMC-based torque allocation in the leg joints.
+      </p>
+    </section>
+
+    <!-- EXPERIMENTAL SETUP -->
+    <section>
+      <h2>Experimental Setup</h2>
+      <p>
+        The controller is evaluated in MATLAB simulation using a planar five-bar leg + wheel model. The closed-loop architecture includes:
+      </p>
+      <ul>
+        <li>State estimation of body and leg angles, positions, and velocities.</li>
+        <li>A reference forward velocity and upright body posture.</li>
+        <li>Online gain scheduling based on current leg length.</li>
+        <li>Torque commands to wheel and leg actuators computed from LQR + VMC.</li>
+      </ul>
+
+      <img src="../assets/images/ocrl_architecture.png" alt="OCRL control architecture diagram" />
+      <div class="note">If you don’t have this image yet, remove this block to avoid 404s.</div>
+    </section>
+
+    <!-- RESULTS -->
+    <section>
+      <h2>Results</h2>
+      <p>
+        Simulation studies show that the controller can maintain upright balance and coordinate wheel and leg motion over cyclic reference trajectories.
+        Key observations include:
+      </p>
+      <ul>
+        <li><strong>Body elevation angle:</strong> body pitch remains close to zero while the legs swing, indicating successful posture regulation.</li>
+        <li><strong>Torque coordination:</strong> wheel and leg torques exhibit smooth patterns without abrupt spikes.</li>
+        <li><strong>Motor speed tracking:</strong> commanded and measured leg speeds overlap closely, demonstrating strong velocity tracking.</li>
+        <li><strong>Trajectory execution:</strong> motion visualizations confirm the intended gait while staying balanced.</li>
+      </ul>
+
+      <!-- IMPORTANT: Do not leave a broken video path on the public site.
+           Uncomment only if you actually have the file at ../assets/videos/ocrl_demo.mp4
+      -->
+      <!--
+      <video controls>
+        <source src="../assets/videos/ocrl_demo.mp4" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+      -->
+      <div class="note">Add a short demo video/GIF when available; otherwise keep the embed removed.</div>
+    </section>
+
+    <!-- DISCUSSION -->
+    <section>
+      <h2>Discussion</h2>
+      <p>
+        The combination of LQR and VMC provides a principled way to stabilize a bipedal wheel robot around an upright configuration while coordinating
+        multiple actuators. The gain scheduling scheme allows the controller to adapt to changing leg geometry without solving a Riccati equation online,
+        which keeps the implementation lightweight.
+      </p>
+      <p>
+        The current results are obtained in an idealized simulation with accurate models and noise-free sensing. Real hardware introduces parameter
+        uncertainty, sensor noise, and ground friction variations, which may degrade performance. Future work will extend the framework with robustness
+        analysis and potentially learning-based adaptation to tune the gains online.
+      </p>
+    </section>
+
+    <!-- MY CONTRIBUTION -->
+    <section>
+      <h2>My Contribution</h2>
+      <p>Within the OCRL team, I contributed to:</p>
+      <ul>
+        <li>Formulating the state-space model used for LQR control.</li>
+        <li>Implementing the LQR controller and gain-scheduling logic in MATLAB.</li>
+        <li>Working on the VMC mapping from task-space forces to joint torques.</li>
+        <li>Running simulations, generating plots, and summarizing results for the final report.</li>
+        <li>Designing this project webpage and organizing the content for the portfolio.</li>
+      </ul>
+    </section>
+
+    <footer>
+      © <span id="y"></span> Ruiyang “Lucas” Zhou
     </footer>
   </div>
 
-  <script>document.getElementById("y").textContent = new Date().getFullYear();</script>
+  <script>
+    document.getElementById("y").textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>
