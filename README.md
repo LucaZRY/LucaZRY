@@ -61,7 +61,7 @@ PPO expert to student policies via **DAgger** and **diffusion-based** models.
 
 **Links**
 
-
+👉 [10703 DeepRL Project](https://LucaZRY.github.io/LucaZRY/carracing/)
 
 - 🔗 **Code Repository:** _TODO: `https://github.com/your-username/roboconstruction-wheelloader`_  
 - 🎥 **Simulation Demo:** _TODO: add Isaac Sim demo video link_  
@@ -83,6 +83,8 @@ Course project from **Optimal Control & Reinforcement Learning (OCRL)** focusing
 - Visualized walking trajectories and joint-space control behavior.
 
 **Links**
+
+👉 [LQR Bi-Padel Project Website](https://LucaZRY.github.io/LucaZRY/ocrl/)
 - 🔗 **Code Repository:** _TODO: `https://github.com/your-username/ocrl-bipedal-controller`_  
 - 🎥 **Gait Demo:** _TODO: video link_  
 - 📄 **Project Report:** _TODO: PDF link_

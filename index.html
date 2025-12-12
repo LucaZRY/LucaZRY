@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Lucas Zhou | Portfolio</title>
+  <style>
+    :root { --max: 980px; }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif; margin: 0; line-height: 1.5; }
+    .wrap { max-width: var(--max); margin: 0 auto; padding: 36px 18px; }
+    .top { display: flex; gap: 28px; align-items: center; flex-wrap: wrap; }
+    .photo { width: 150px; height: 150px; border-radius: 999px; object-fit: cover; border: 1px solid #ddd; }
+    h1 { margin: 0; font-size: 34px; }
+    h2 { margin-top: 34px; font-size: 20px; }
+    .subtitle { margin: 6px 0 14px; color: #444; font-size: 16px; }
+    .nav a { display: inline-block; margin-right: 10px; margin-bottom: 8px; padding: 10px 12px; border: 1px solid #ddd; border-radius: 10px; text-decoration: none; color: #111; }
+    .nav a:hover { background: #f6f6f6; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; }
+    .card { border: 1px solid #ddd; border-radius: 14px; padding: 14px; }
+    .card a { text-decoration: none; }
+    .muted { color: #555; }
+    .pill { display: inline-block; padding: 4px 10px; border: 1px solid #ddd; border-radius: 999px; margin: 4px 6px 0 0; font-size: 13px; }
+    footer { margin-top: 40px; padding-top: 16px; border-top: 1px solid #eee; color: #666; font-size: 13px; }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <!-- HERO -->
+    <div class="top">
+      <!-- Update this filename to match your actual photo -->
+      <img class="photo" src="assets/images/headshot.jpg" alt="Lucas Zhou headshot">
+
+      <div>
+        <h1>Lucas Zhou</h1>
+        <div class="subtitle">Robotics & Reinforcement Learning | Simulation, Control, and Learning for Articulated Systems</div>
+
+        <!-- SUPERLINKS -->
+        <div class="nav">
+          <a href="assets/resume/Lucas_Zhou_Resume.pdf">Resume (PDF)</a>
+          <a href="#projects">Projects</a>
+          <a href="#research">Research</a>
+          <a href="#contact">Contact</a>
+        </div>
+
+        <!-- QUICK SKILLS (skimmable) -->
+        <div>
+          <span class="pill">Isaac Sim / IsaacLab</span>
+          <span class="pill">PhysX / Contacts</span>
+          <span class="pill">PPO / DAgger</span>
+          <span class="pill">PyTorch</span>
+          <span class="pill">Controls / Optimization</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ABOUT -->
+    <h2>About</h2>
+    <p class="muted">
+      I work on robotics simulation, control, and reinforcement learning with an emphasis on high-fidelity physics environments
+      and data-driven control for articulated machines. This portfolio highlights selected projects, research-style work, and
+      implementation details with reproducible code and results.
+    </p>
+
+    <!-- PROJECTS -->
+    <h2 id="projects">Projects</h2>
+    <div class="grid">
+      <div class="card">
+        <b>Wheel Loader Simulation & Scooping</b>
+        <p class="muted">Articulated vehicle simulation, granular interaction, and control policies in Isaac Sim/IsaacLab.</p>
+        <a href="wheelloader/">View →</a>
+      </div>
+
+      <div class="card">
+        <b>CarRacing RL + Imitation Learning</b>
+        <p class="muted">Expert training, dataset generation, and DAgger/offline pipelines for robust driving policies.</p>
+        <a href="carracing/">View →</a>
+      </div>
+
+      <div class="card">
+        <b>OCRL Biped / Controller Work</b>
+        <p class="muted">Legged control and simulation integration; controller design and validation.</p>
+        <a href="ocrl/">View →</a>
+      </div>
+
+      <div class="card">
+        <b>EMSD Capstone</b>
+        <p class="muted">System design, implementation, and validation with quantified engineering targets.</p>
+        <a href="emsd/">View →</a>
+      </div>
+    </div>
+
+    <!-- RESEARCH -->
+    <h2 id="research">Research</h2>
+    <p class="muted">
+      Add your research entries here (paper/report links, slides, posters, or a short list). If you want, I can provide a clean
+      “Research” section format similar to a mini-publications page.
+    </p>
+
+    <!-- CONTACT -->
+    <h2 id="contact">Contact</h2>
+    <p class="muted">
+      Email: <a href="mailto:YOUR_EMAIL@domain.com">YOUR_EMAIL@domain.com</a><br/>
+      GitHub: <a href="https://github.com/LucaZRY">github.com/LucaZRY</a><br/>
+      LinkedIn: <a href="https://www.linkedin.com/in/YOUR_LINKEDIN/">linkedin.com/in/YOUR_LINKEDIN</a>
+    </p>
+
+    <footer>
+      © <span id="y"></span> Lucas Zhou. Built with GitHub Pages.
+    </footer>
+  </div>
+
+  <script>
+    document.getElementById("y").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
