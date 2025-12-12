@@ -2,175 +2,59 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>CarRacing RL – PPO / DAgger / Diffusion | Ruiyang (Lucas) Zhou</title>
+  <title>OCRL Project – Bipedal Wheel Robot LQR Control | Ruiyang (Lucas) Zhou</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta
     name="description"
-    content="CarRacing-v2 deep RL and imitation learning: PPO expert, dataset generation, DAgger, and diffusion-based policy/trajectory augmentation."
+    content="OCRL course project on LQR-based balance control and Virtual Model Control (VMC) for a bipedal wheel robot in simulation."
   />
-
   <style>
-    :root {
-      --max: 980px;
-      --border: #e5e5e5;
-      --muted: #444;
-      --bg: #ffffff;
-      --card: #ffffff;
-      --link: #0b66c3;
-      --soft: #f6f6f6;
-    }
-
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      background: var(--bg);
-      color: #111;
+      background: #0d1117;
+      color: #e6edf3;
       margin: 0;
       padding: 0;
-      line-height: 1.65;
+      line-height: 1.6;
     }
-
-    a { color: var(--link); }
-
+    a { color: #4fd1c5; }
     .container {
-      max-width: var(--max);
+      max-width: 900px;
       margin: 0 auto;
-      padding: 36px 18px;
+      padding: 24px;
     }
-
-    /* Top nav */
-    nav {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      margin-bottom: 18px;
-      flex-wrap: wrap;
+    header {
+      margin-bottom: 32px;
     }
-
-    .nav-left a {
-      display: inline-block;
-      padding: 10px 12px;
-      border-radius: 10px;
-      text-decoration: none;
-      color: #111;
-      border: 1px solid var(--border);
-      background: #fff;
+    h1, h2, h3 {
+      color: #58a6ff;
     }
-
-    .nav-left a:hover { background: var(--soft); }
-
-    .nav-right {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    .chip {
-      display: inline-block;
-      padding: 8px 12px;
-      border-radius: 999px;
-      border: 1px solid var(--border);
-      text-decoration: none;
-      color: #111;
-      background: #fff;
-      font-size: 14px;
-    }
-
-    .chip:hover { background: var(--soft); }
-
-    /* Headings */
-    header { margin-bottom: 22px; }
-    h1 { margin: 8px 0 8px; font-size: 34px; line-height: 1.2; }
-    h2 { margin: 0 0 10px; font-size: 20px; }
-    h3 { margin: 18px 0 10px; font-size: 16px; color: #222; }
-
-    .subtitle { color: var(--muted); margin: 6px 0 14px; }
-
-    /* Cards */
-    section {
-      background: var(--card);
-      padding: 18px;
-      margin: 14px 0;
-      border-radius: 14px;
-      border: 1px solid var(--border);
-      box-shadow: 0 1px 0 rgba(0,0,0,0.02);
-    }
-
     img, video {
       width: 100%;
-      border-radius: 14px;
-      margin: 12px 0;
-      border: 1px solid var(--border);
-      background: #fafafa;
-    }
-
-    ul { padding-left: 22px; }
-    code {
-      background: #f4f4f4;
-      padding: 2px 6px;
-      border-radius: 6px;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 12px;
-    }
-
-    .metric {
-      border: 1px solid var(--border);
       border-radius: 12px;
-      padding: 12px;
-      background: #fff;
+      margin: 12px 0;
+      border: 1px solid #30363d;
     }
-
-    .metric .label { color: var(--muted); font-size: 13px; }
-    .metric .value { font-size: 16px; font-weight: 600; margin-top: 6px; }
-
-    .note { color: var(--muted); font-size: 13px; margin-top: 6px; }
-
-    .btn-row {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-top: 8px;
+    section {
+      background: #161b22;
+      padding: 20px;
+      margin: 18px 0;
+      border-radius: 12px;
+      border: 1px solid #30363d;
     }
-
-    .btn {
-      display: inline-block;
-      padding: 10px 12px;
-      border-radius: 10px;
-      border: 1px solid var(--border);
-      background: #fff;
+    nav a {
+      background: #21262d;
+      padding: 8px 14px;
+      border-radius: 8px;
       text-decoration: none;
-      color: #111;
+      color: #e6edf3;
+      border: 1px solid #30363d;
     }
-
-    .btn:hover { background: var(--soft); }
-
-    .tag-row {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      margin-top: 10px;
+    nav a:hover {
+      background: #30363d;
     }
-
-    .tag {
-      display: inline-block;
-      padding: 6px 10px;
-      border-radius: 999px;
-      border: 1px solid var(--border);
-      background: #fff;
-      font-size: 13px;
-      color: #222;
-    }
-
-    footer {
-      margin-top: 34px;
-      padding-top: 16px;
-      border-top: 1px solid #eee;
-      color: #666;
-      font-size: 13px;
+    ul {
+      padding-left: 22px;
     }
   </style>
 </head>
@@ -178,219 +62,175 @@
 <body>
   <div class="container">
 
-    <!-- TOP NAV -->
+    <!-- 🔙 Back to main site -->
     <nav>
-      <div class="nav-left">
-        <a href="../index.html">← Back to Main Portfolio</a>
-      </div>
-      <div class="nav-right">
-        <!-- Update these when ready -->
-        <a class="chip" href="https://github.com/LucaZRY" target="_blank" rel="noopener">GitHub</a>
-        <a class="chip" href="mailto:lucaszhoury@gmail.com">Email</a>
-
-        <!-- Uncomment only when you have real links (avoid broken links on public site)
-        <a class="chip" href="YOUR_CODE_REPO_LINK" target="_blank" rel="noopener">Code</a>
-        <a class="chip" href="YOUR_REPORT_PDF_LINK" target="_blank" rel="noopener">Report (PDF)</a>
-        <a class="chip" href="YOUR_DEMO_VIDEO_LINK" target="_blank" rel="noopener">Demo</a>
-        -->
-      </div>
+      <a href="../index.html">← Back to Main Portfolio</a>
     </nav>
 
-    <!-- HERO -->
+    <!-- ⭐ HERO -->
     <header>
-      <h1>CarRacing RL: PPO Expert → DAgger → Diffusion Augmentation</h1>
-      <p class="subtitle">
-        A CMU Deep RL project exploring expert training, dataset generation, imitation learning, and
-        diffusion-based augmentation on <strong>Gymnasium CarRacing-v2</strong>.
+      <h1>OCRL Project: LQR-Based Balance Control for a Bipedal Wheel Robot</h1>
+      <p>
+        Course project for <strong>Optimal Control &amp; Reinforcement Learning (OCRL)</strong>:
+        designing and simulating an LQR + Virtual Model Control framework for a bipedal wheel
+        robot with a five-bar leg mechanism.
       </p>
-
-      <div class="tag-row">
-        <span class="tag">CarRacing-v2</span>
-        <span class="tag">PPO</span>
-        <span class="tag">Imitation Learning</span>
-        <span class="tag">DAgger</span>
-        <span class="tag">Diffusion</span>
-        <span class="tag">Offline Dataset</span>
-      </div>
-
-      <!-- Replace with a real GIF/screenshot. Make sure the file exists to avoid 404. -->
-      <img src="../assets/images/carracing_hero.png" alt="CarRacing policy rollout preview" />
-      <div class="note">Replace with your best rollout GIF/screenshot (e.g., <code>assets/images/carracing_demo.gif</code>).</div>
+      <!-- Replace with a real figure from your report, e.g., planar model / robot CAD -->
+      <img src="../assets/images/ocrl_hero.png" alt="Bipedal wheel robot illustration" />
     </header>
 
-    <!-- LINKS -->
-    <section>
-      <h2>Links</h2>
-      <div class="btn-row">
-        <a class="btn" href="../index.html">Main Portfolio</a>
-
-        <!-- Avoid TODO/broken links. Uncomment only when ready. -->
-        <!-- <a class="btn" href="https://github.com/LucaZRY/10703DeepRL_Project" target="_blank" rel="noopener">Code Repository</a> -->
-        <!-- <a class="btn" href="../assets/reports/carracing_report.pdf" target="_blank" rel="noopener">Report (PDF)</a> -->
-        <!-- <a class="btn" href="https://youtu.be/YOUR_VIDEO" target="_blank" rel="noopener">Demo Video</a> -->
-      </div>
-      <div class="note">Tip: include at least Code + Report to maximize rubric score (and remove anything you don’t have yet).</div>
-    </section>
-
-    <!-- OBJECTIVE / METRICS -->
-    <section>
-      <h2>Objective &amp; Metrics</h2>
-      <p>
-        This project studies how to train a strong continuous-control policy in CarRacing-v2 and then
-        distill/improve a student policy using imitation learning (DAgger) and diffusion-based synthetic data.
-        The goal is improved robustness when the student deviates from expert trajectories.
-      </p>
-
-      <div class="grid">
-        <div class="metric">
-          <div class="label">Primary objective</div>
-          <div class="value">High-return driving with low crash rate</div>
-        </div>
-        <div class="metric">
-          <div class="label">Key metric</div>
-          <div class="value">Episode return (mean ± std)</div>
-        </div>
-        <div class="metric">
-          <div class="label">Robustness metric</div>
-          <div class="value">Off-distribution recovery (DAgger)</div>
-        </div>
-        <div class="metric">
-          <div class="label">Data metric</div>
-          <div class="value">Dataset size / coverage</div>
-        </div>
-      </div>
-
-      <div class="note">
-        When you have numbers, replace these with concrete values (e.g., “Avg return: 820 ± 60 over 50 eval episodes”).
-      </div>
-    </section>
-
-    <!-- INTRODUCTION -->
+    <!-- 🟦 INTRODUCTION -->
     <section>
       <h2>Introduction</h2>
       <p>
-        CarRacing-v2 is a continuous-control benchmark where an agent must drive a procedurally generated track
-        from pixel observations. While a PPO expert can achieve strong performance, student policies trained via
-        behavior cloning often fail under distribution shift: a small deviation from expert states can compound,
-        sending the student into unseen states and causing crashes.
+        Bipedal wheeled robots combine the agility of legged locomotion with the efficiency of
+        wheels, making them attractive for navigating cluttered indoor spaces and uneven terrain.
+        However, balancing such systems is challenging because of their nonlinear, underactuated
+        dynamics and changing ground contact conditions.
       </p>
       <p>
-        This project builds a full pipeline: (1) train an expert with PPO, (2) generate and validate an offline dataset,
-        (3) train a student via imitation learning, (4) improve with DAgger, and (5) explore diffusion-based data/policy
-        augmentation to increase coverage of critical recovery behaviors.
+        This project develops a <strong>Linear Quadratic Regulator (LQR)</strong>–based balance controller,
+        combined with <strong>Virtual Model Control (VMC)</strong>, for a simplified bipedal wheel robot model.
+        The goal is to stabilize the robot’s body posture, coordinate leg and wheel torques, and
+        track desired motions in simulation, building a foundation for future hardware deployment.
       </p>
     </section>
 
-    <!-- PIPELINE OVERVIEW -->
-    <section>
-      <h2>System Pipeline</h2>
-      <ul>
-        <li><strong>PPO expert:</strong> train expert policy and checkpoint best weights for safety.</li>
-        <li><strong>Dataset generation:</strong> collect rollouts in a consistent saved format (obs/actions/dones).</li>
-        <li><strong>Student training:</strong> behavior cloning / supervised imitation from expert dataset.</li>
-        <li><strong>DAgger loop:</strong> run student, query expert labels on visited states, aggregate dataset, retrain.</li>
-        <li><strong>Diffusion augmentation:</strong> generate synthetic trajectories/actions to expand coverage and improve robustness.</li>
-      </ul>
-    </section>
-
-    <!-- METHODS -->
+    <!-- 🧠 METHODS -->
     <section>
       <h2>Methods</h2>
-
-      <h3>PPO Expert Training</h3>
+      <h3>Dynamic Modeling</h3>
+      <p>
+        To make the control problem tractable, the full five-bar leg structure is first reduced to
+        a planar model consisting of a wheel, a rigid leg, and a rigid body. The configuration is
+        described by wheel translation, leg pitch angle, and body pitch angle, actuated by a wheel
+        motor torque and a hip torque. Using Newton–Euler equations, the coupled dynamics are
+        derived and then rewritten in first-order state-space form:
+      </p>
       <ul>
-        <li>Train PPO on CarRacing-v2 with image preprocessing (grayscale/resize/framestack as needed).</li>
-        <li>Track reward curves and evaluation return; save <code>best.pt</code> periodically for crash safety.</li>
-        <li>Export rollouts with consistent observation resolution to avoid dimension mismatch downstream.</li>
+        <li>State vector <em>x</em> includes joint angles, positions, and their velocities.</li>
+        <li>Input vector <em>u</em> contains the wheel and hip torques.</li>
+        <li>The system is linearized about the upright equilibrium.</li>
       </ul>
 
-      <h3>Offline Dataset Format</h3>
+      <h3>LQR Design with Gain Scheduling</h3>
+      <p>
+        On the linearized model, an LQR controller is designed to minimize a quadratic cost on state
+        deviation and control effort. The controller uses full-state feedback
+        <code>u = -K x</code>, where the gain matrix <code>K</code> is obtained by solving the
+        continuous-time algebraic Riccati equation.
+      </p>
+      <p>
+        Because the robot’s effective leg length changes during motion, the dynamics – and thus the
+        optimal gains – vary with configuration. To handle this, <strong>gain scheduling</strong> is used:
+      </p>
       <ul>
-        <li>Store observations (images), actions (continuous), and terminals.</li>
-        <li>Include metadata: preprocessing, frame stack, action scaling, and environment version.</li>
-        <li>Validate dataset with a lightweight “dataset_check” script to ensure shape/normalization consistency.</li>
+        <li>Compute LQR gains offline for discrete leg lengths.</li>
+        <li>Fit cubic polynomials to each gain entry as a function of leg length.</li>
+        <li>Interpolate <code>K(L₀)</code> online based on the current leg geometry.</li>
       </ul>
 
-      <h3>DAgger (Dataset Aggregation)</h3>
+      <h3>Virtual Model Control (VMC)</h3>
+      <p>
+        For the planar five-bar leg, Virtual Model Control is used to map task-space virtual
+        forces into joint torques. A virtual spring–damper in task space generates desired vertical
+        support force and leg orientation; these forces are projected into joint space using the
+        Jacobian transpose:
+      </p>
       <ul>
-        <li>Run the student policy on-policy to collect the states it actually visits.</li>
-        <li>Label those states with expert actions (online query) and append them to the aggregated dataset.</li>
-        <li>Retrain student on the combined dataset to reduce compounding error and improve recovery behavior.</li>
+        <li>Task variables: leg length <em>L₀</em> and leg orientation.</li>
+        <li>Virtual force vector <em>F</em> encodes desired behavior (e.g., support, damping).</li>
+        <li>Joint torques are computed as <code>T = Jᵀ F</code>.</li>
       </ul>
-
-      <h3>Diffusion-Based Augmentation</h3>
-      <ul>
-        <li>Train a diffusion model over trajectories/actions (or latent representations).</li>
-        <li>Sample synthetic data to increase coverage of rare but important failure-recovery regimes.</li>
-        <li>Use the augmented dataset to train a student policy that generalizes better under distribution shift.</li>
-      </ul>
+      <p>
+        The final closed-loop controller combines LQR body regulation with VMC-based torque
+        allocation in the leg joints.
+      </p>
     </section>
 
-    <!-- RESULTS -->
+    <!-- 🧪 EXPERIMENTAL SETUP -->
+    <section>
+      <h2>Experimental Setup</h2>
+      <p>
+        The controller is evaluated in MATLAB simulation using a planar five-bar leg + wheel model.
+        The closed-loop architecture includes:
+      </p>
+      <ul>
+        <li>State estimation of body and leg angles, positions, and velocities.</li>
+        <li>A reference forward velocity and upright body posture.</li>
+        <li>Online gain scheduling based on current leg length.</li>
+        <li>Torque commands to wheel and leg actuators computed from LQR + VMC.</li>
+      </ul>
+      <!-- Optional architecture figure -->
+      <img src="../assets/images/ocrl_architecture.png" alt="OCRL control architecture diagram" />
+    </section>
+
+    <!-- 📈 RESULTS -->
     <section>
       <h2>Results</h2>
       <p>
-        Add your quantitative results here. Recommended reporting (2–4 bullets):
+        Simulation studies show that the controller can maintain upright balance and coordinate
+        wheel and leg motion over cyclic reference trajectories. Key observations include:
       </p>
       <ul>
-        <li><strong>PPO expert:</strong> average return over N evaluation episodes; best checkpoint return.</li>
-        <li><strong>BC student:</strong> performance drop vs expert; typical failure modes.</li>
-        <li><strong>DAgger:</strong> improvement vs BC after k iterations; recovery rate improvement.</li>
-        <li><strong>Diffusion augmentation:</strong> impact on robustness and variance (if implemented).</li>
+        <li>
+          <strong>Body elevation angle:</strong> the body pitch remains close to zero while the legs
+          swing, indicating successful posture regulation.
+        </li>
+        <li>
+          <strong>Torque coordination:</strong> wheel and leg torques exhibit smooth, alternating
+          patterns, with higher demands during transition phases but no abrupt spikes.
+        </li>
+        <li>
+          <strong>Motor speed tracking:</strong> commanded and measured leg speeds overlap closely,
+          demonstrating strong velocity tracking.
+        </li>
+        <li>
+          <strong>Trajectory execution:</strong> visualizations of the robot’s motion confirm that
+          the robot follows the intended gait while staying balanced.
+        </li>
       </ul>
 
-      <!-- Optional: add plots when you have them.
-           Make sure these files exist to avoid 404s.
-      -->
-      <!--
-      <img src="../assets/images/carracing_reward_curve.png" alt="Reward curve plot" />
-      <img src="../assets/images/carracing_eval_table.png" alt="Evaluation summary" />
-      -->
-      <div class="note">Tip: one reward curve + one evaluation table image usually scores well and looks credible.</div>
-
-      <!-- Optional video (only if you have it). -->
-      <!--
+      <!-- If you export a short MATLAB animation, you can embed it here -->
       <video controls>
-        <source src="../assets/videos/carracing_demo.mp4" type="video/mp4" />
+        <source src="../assets/videos/ocrl_demo.mp4" type="video/mp4" />
         Your browser does not support the video tag.
       </video>
-      -->
     </section>
 
-    <!-- DISCUSSION -->
+    <!-- 💬 DISCUSSION -->
     <section>
       <h2>Discussion</h2>
       <p>
-        A PPO expert provides high-quality supervision, but naive distillation can fail when the student drifts into
-        unseen states. DAgger directly addresses this by re-labeling the student’s on-policy distribution with expert
-        actions. Diffusion-based augmentation is explored as a complementary approach to increase dataset coverage and
-        model complex action distributions for difficult recovery behaviors.
+        The combination of LQR and VMC provides a principled way to stabilize a bipedal wheel
+        robot around an upright configuration while coordinating multiple actuators. The gain
+        scheduling scheme allows the controller to adapt to changing leg geometry without solving
+        a Riccati equation online, which keeps the implementation lightweight.
       </p>
       <p>
-        Key practical lessons include enforcing a single observation preprocessing pipeline across expert/student/diffusion,
-        saving best checkpoints frequently for stability, and implementing dataset validation tools to catch shape mismatches early.
+        The current results are obtained in an idealized simulation with accurate models and
+        noise-free sensing. Real hardware introduces parameter uncertainty, sensor noise, and
+        ground friction variations, which may degrade performance. Future work will extend the
+        framework with robustness analysis and potentially learning-based adaptation to tune the
+        gains online.
       </p>
     </section>
 
-    <!-- MY CONTRIBUTION -->
+    <!-- 👤 MY CONTRIBUTION -->
     <section>
       <h2>My Contribution</h2>
+      <p>
+        Within the OCRL team, I contributed to:
+      </p>
       <ul>
-        <li>Implemented PPO training/evaluation scripts and checkpointing strategy.</li>
-        <li>Designed a consistent dataset export format for expert rollouts.</li>
-        <li>Implemented and debugged DAgger training loop and dataset aggregation.</li>
-        <li>Integrated diffusion data generation (or scaffolding) and ensured shape compatibility with student training.</li>
-        <li>Built this project webpage and organized artifacts for the portfolio.</li>
+        <li>Formulating the state-space model used for LQR control.</li>
+        <li>Implementing the LQR controller and gain-scheduling logic in MATLAB.</li>
+        <li>Working on the VMC mapping from task-space forces to joint torques.</li>
+        <li>Running simulations, generating plots, and summarizing results for the final report.</li>
+        <li>Designing this project webpage and organizing the content for the portfolio.</li>
       </ul>
     </section>
 
-    <footer>
-      © <span id="y"></span> Ruiyang “Lucas” Zhou
-    </footer>
   </div>
-
-  <script>
-    document.getElementById("y").textContent = new Date().getFullYear();
-  </script>
 </body>
 </html>
