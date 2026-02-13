@@ -1,80 +1,63 @@
-<!-- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Wheel-Loader RL Project | Ruiyang (Lucas) Zhou</title>
+  <title>Wheel Loader RL – Isaac Sim / IsaacLab | Ruiyang (Lucas) Zhou</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta
     name="description"
-    content="Reinforcement learning for autonomous wheel-loader bucket motion in Isaac Sim / IsaacLab."
+    content="Autonomous wheel-loader scooping in Isaac Sim / IsaacLab: contact-rich simulation, granular interaction, and reinforcement learning."
   />
+
   <style>
     :root {
-      --bg: #050714;
-      --bg-alt: #0b1020;
-      --accent: #4fd1c5;
-      --accent-soft: rgba(79, 209, 197, 0.12);
-      --text-main: #e4e7f5;
-      --text-muted: #9ca3c7;
-      --border-subtle: #1f2937;
-      --card-bg: #0d1224;
-      --shadow-soft: 0 24px 60px rgba(0, 0, 0, 0.6);
-      --radius-lg: 18px;
-      --radius-xl: 26px;
-      --font-main: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
-        "Segoe UI", sans-serif;
-    }
-
-    * {
-      box-sizing: border-box;
+      --max: 980px;
+      --border: #e5e5e5;
+      --muted: #444;
+      --bg: #ffffff;
+      --card: #ffffff;
+      --link: #0b66c3;
+      --soft: #f6f6f6;
     }
 
     body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: var(--bg);
+      color: #111;
       margin: 0;
-      font-family: var(--font-main);
-      background: radial-gradient(circle at top, #111827 0, #020617 55%);
-      color: var(--text-main);
-      -webkit-font-smoothing: antialiased;
+      padding: 0;
+      line-height: 1.65;
     }
 
-    a {
-      color: var(--accent);
-      text-decoration: none;
-    }
+    a { color: var(--link); }
 
-    a:hover {
-      text-decoration: underline;
-    }
-
-    .page {
-      max-width: 1080px;
+    .container {
+      max-width: var(--max);
       margin: 0 auto;
-      padding: 24px 18px 64px;
+      padding: 36px 18px;
     }
 
-    header {
+    /* Top nav */
+    nav {
       display: flex;
+      align-items: center;
       justify-content: space-between;
-      align-items: center;
-      margin-bottom: 24px;
       gap: 12px;
+      margin-bottom: 18px;
+      flex-wrap: wrap;
     }
 
-    .nav-left a.back-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 0.9rem;
-      color: var(--text-muted);
-      padding: 6px 10px;
-      border-radius: 999px;
-      background: rgba(15, 23, 42, 0.9);
-      border: 1px solid rgba(148, 163, 184, 0.18);
+    .nav-left a {
+      display: inline-block;
+      padding: 10px 12px;
+      border-radius: 10px;
+      text-decoration: none;
+      color: #111;
+      border: 1px solid var(--border);
+      background: #fff;
     }
 
-    .nav-left a.back-link span.arrow {
-      font-size: 1.1rem;
-    }
+    .nav-left a:hover { background: var(--soft); }
 
     .nav-right {
       display: flex;
@@ -82,625 +65,113 @@
       flex-wrap: wrap;
     }
 
-    .chip-link {
-      font-size: 0.85rem;
-      padding: 6px 12px;
+    .chip {
+      display: inline-block;
+      padding: 8px 12px;
       border-radius: 999px;
-      border: 1px solid rgba(148, 163, 184, 0.4);
-      color: var(--text-muted);
-      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid var(--border);
+      text-decoration: none;
+      color: #111;
+      background: #fff;
+      font-size: 14px;
     }
 
-    .chip-link.highlight {
-      border-color: var(--accent);
-      color: var(--accent);
-      background: var(--accent-soft);
-    }
+    .chip:hover { background: var(--soft); }
 
-    main {
-      display: flex;
-      flex-direction: column;
-      gap: 28px;
-    }
+    /* Headings */
+    header { margin-bottom: 22px; }
+    h1 { margin: 8px 0; font-size: 34px; line-height: 1.2; }
+    h2 { margin: 0 0 10px; font-size: 20px; }
+    h3 { margin: 18px 0 10px; font-size: 16px; color: #222; }
 
-    .hero {
-      display: grid;
-      grid-template-columns: minmax(0, 1.5fr) minmax(0, 1.3fr);
-      gap: 24px;
-      align-items: center;
-    }
+    .subtitle { color: var(--muted); margin: 6px 0 14px; }
 
-    @media (max-width: 820px) {
-      .hero {
-        grid-template-columns: minmax(0, 1fr);
-      }
-    }
-
-    .hero-text {
-      padding: 20px 22px;
-      border-radius: var(--radius-xl);
-      background: radial-gradient(circle at top left, #111827 0, #020617 60%);
-      border: 1px solid rgba(148, 163, 184, 0.3);
-      box-shadow: var(--shadow-soft);
-    }
-
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 0.8rem;
-      padding: 4px 10px;
-      border-radius: 999px;
-      border: 1px solid rgba(148, 163, 184, 0.4);
-      color: var(--text-muted);
-      margin-bottom: 10px;
-    }
-
-    .badge-dot {
-      width: 7px;
-      height: 7px;
-      border-radius: 999px;
-      background: var(--accent);
-      box-shadow: 0 0 12px rgba(79, 209, 197, 0.8);
-    }
-
-    .hero-title {
-      font-size: clamp(1.9rem, 3vw, 2.35rem);
-      font-weight: 650;
-      letter-spacing: 0.02em;
-      margin: 4px 0 10px;
-    }
-
-    .hero-subtitle {
-      font-size: 1rem;
-      color: var(--text-muted);
-      max-width: 32rem;
-      line-height: 1.6;
-      margin-bottom: 14px;
-    }
-
-    .hero-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-bottom: 16px;
-    }
-
-    .hero-tag {
-      font-size: 0.78rem;
-      padding: 4px 9px;
-      border-radius: 999px;
-      background: rgba(15, 23, 42, 0.92);
-      border: 1px solid rgba(148, 163, 184, 0.4);
-      color: var(--text-muted);
-    }
-
-    .hero-meta {
-      display: flex;
-      gap: 18px;
-      flex-wrap: wrap;
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      border-top: 1px solid rgba(148, 163, 184, 0.2);
-      padding-top: 10px;
-      margin-top: 3px;
-    }
-
-    .hero-meta span strong {
-      color: var(--text-main);
-      font-weight: 500;
-    }
-
-    .hero-visual {
-      border-radius: var(--radius-xl);
-      background: radial-gradient(circle at top, #1f2937 0, #020617 60%);
-      border: 1px solid rgba(148, 163, 184, 0.3);
-      padding: 14px 14px 16px;
-      box-shadow: var(--shadow-soft);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .hero-visual img {
-      display: block;
-      width: 100%;
-      border-radius: 18px;
-      object-fit: cover;
-      max-height: 360px;
-    }
-
-    .hero-visual-note {
-      font-size: 0.8rem;
-      color: var(--text-muted);
-      margin-top: 6px;
-    }
-
+    /* Cards */
     section {
-      padding: 18px 20px 20px;
-      border-radius: var(--radius-lg);
-      background: rgba(15, 23, 42, 0.94);
-      border: 1px solid rgba(148, 163, 184, 0.32);
-      box-shadow: 0 18px 50px rgba(0, 0, 0, 0.55);
+      background: var(--card);
+      padding: 18px;
+      margin: 14px 0;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      box-shadow: 0 1px 0 rgba(0,0,0,0.02);
     }
 
-    section + section {
-      margin-top: 2px;
+    img, video {
+      width: 100%;
+      border-radius: 14px;
+      margin: 12px 0;
+      border: 1px solid var(--border);
+      background: #fafafa;
     }
 
-    section h2 {
-      font-size: 1.1rem;
-      margin: 0 0 10px;
+    ul { padding-left: 22px; }
+
+    code {
+      background: #f4f4f4;
+      padding: 2px 6px;
+      border-radius: 6px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 12px;
+    }
+
+    .metric {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px;
+      background: #fff;
+    }
+
+    .metric .label { color: var(--muted); font-size: 13px; }
+    .metric .value { font-size: 16px; font-weight: 600; margin-top: 6px; }
+
+    .note { color: var(--muted); font-size: 13px; margin-top: 6px; }
+
+    .btn-row {
       display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    section h2 span.icon {
-      font-size: 1.2rem;
-    }
-
-    section p {
-      font-size: 0.94rem;
-      color: var(--text-muted);
-      line-height: 1.65;
-      margin: 6px 0;
-    }
-
-    .pill-list {
-      display: flex;
+      gap: 10px;
       flex-wrap: wrap;
-      gap: 8px;
       margin-top: 8px;
     }
 
-    .pill {
-      font-size: 0.8rem;
-      padding: 4px 9px;
-      border-radius: 999px;
-      background: rgba(15, 23, 42, 0.92);
-      border: 1px solid rgba(148, 163, 184, 0.4);
-      color: var(--text-muted);
-    }
-
-    ul {
-      margin: 6px 0 4px;
-      padding-left: 20px;
-    }
-
-    li {
-      font-size: 0.94rem;
-      color: var(--text-muted);
-      line-height: 1.65;
-      margin-bottom: 3px;
-    }
-
-    .two-column {
-      display: grid;
-      grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
-      gap: 18px;
-      margin-top: 6px;
-    }
-
-    @media (max-width: 820px) {
-      .two-column {
-        grid-template-columns: minmax(0, 1fr);
-      }
-    }
-
-    .image-card {
-      background: linear-gradient(135deg, #020617 0, #020617 45%, #111827 100%);
-      border-radius: 16px;
-      border: 1px solid rgba(148, 163, 184, 0.35);
-      padding: 10px 10px 12px;
-    }
-
-    .image-card img {
-      width: 100%;
-      border-radius: 12px;
-      max-height: 260px;
-      object-fit: cover;
-    }
-
-    .image-caption {
-      font-size: 0.8rem;
-      color: var(--text-muted);
-      margin-top: 4px;
-    }
-
-    .metrics-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-      gap: 12px;
-      margin-top: 10px;
-    }
-
-    .metric-card {
-      border-radius: 14px;
-      background: radial-gradient(circle at top left, #111827 0, #020617 65%);
-      border: 1px solid rgba(148, 163, 184, 0.4);
+    .btn {
+      display: inline-block;
       padding: 10px 12px;
-      font-size: 0.85rem;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: #fff;
+      text-decoration: none;
+      color: #111;
     }
 
-    .metric-label {
-      color: var(--text-muted);
-      margin-bottom: 4px;
-    }
+    .btn:hover { background: var(--soft); }
 
-    .metric-value {
-      font-size: 1rem;
-      font-weight: 600;
-    }
-
-    .metric-note {
-      font-size: 0.8rem;
-      color: var(--text-muted);
-      margin-top: 2px;
-    }
-
-    .link-list {
+    .tag-row {
       display: flex;
+      gap: 8px;
       flex-wrap: wrap;
-      gap: 10px;
       margin-top: 10px;
     }
 
-    .link-button {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 8px 12px;
+    .tag {
+      display: inline-block;
+      padding: 6px 10px;
       border-radius: 999px;
-      background: rgba(15, 23, 42, 0.94);
-      border: 1px solid rgba(148, 163, 184, 0.4);
-      font-size: 0.85rem;
-      color: var(--text-main);
-      text-decoration: none;
-    }
-
-    .link-button.primary {
-      background: linear-gradient(135deg, #22c55e, #4fd1c5);
-      border: none;
-      color: #020617;
-      font-weight: 600;
-    }
-
-    .link-button span.icon {
-      font-size: 1rem;
+      border: 1px solid var(--border);
+      background: #fff;
+      font-size: 13px;
+      color: #222;
     }
 
     footer {
-      margin-top: 26px;
-      font-size: 0.8rem;
-      color: var(--text-muted);
-      text-align: center;
-    }
-  </style>
-</head>
-<body>
-  <div class="page">
-    <header>
-      <div class="nav-left">
-        <!-- Change href to your actual main portfolio site -->
-        <a href="../index.html" class="back-link">
-          <span class="arrow">←</span>
-          <span>Back to main portfolio</span>
-        </a>
-      </div>
-      <div class="nav-right">
-        <!-- Replace these hrefs with real links -->
-        <a
-          class="chip-link highlight"
-          href="https://github.com/YOUR-USERNAME/roboconstruction-wheelloader"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          View Code on GitHub
-        </a>
-        <a
-          class="chip-link"
-          href="mailto:lucaszhoury@gmail.com"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Contact Lucas
-        </a>
-      </div>
-    </header>
-
-    <main>
-      <!-- HERO -->
-      <section class="hero">
-        <div class="hero-text">
-          <div class="badge">
-            <span class="badge-dot"></span>
-            <span>Research project · RoboConstruction (CerLab) @ CMU</span>
-          </div>
-          <h1 class="hero-title">
-            Wheel-Loader Reinforcement Learning for Autonomous Bucket Motion
-          </h1>
-          <p class="hero-subtitle">
-            Learning efficient, repeatable scooping motions for a wheel loader
-            in a high-fidelity Isaac Sim environment, targeting real-world
-            construction automation.
-          </p>
-
-          <div class="hero-tags">
-            <span class="hero-tag">Isaac Sim / IsaacLab</span>
-            <span class="hero-tag">Reinforcement Learning</span>
-            <span class="hero-tag">Continuous Control</span>
-            <span class="hero-tag">Granular Materials</span>
-            <span class="hero-tag">Trajectory Optimization</span>
-          </div>
-
-          <div class="hero-meta">
-            <span><strong>Role:</strong> Researcher</span>
-            <span><strong>Timeline:</strong> 2024–2025</span>
-            <span><strong>Location:</strong> Carnegie Mellon University</span>
-          </div>
-        </div>
-
-        <div class="hero-visual">
-          <!-- Replace with an actual screenshot -->
-          <img
-            src="../assets/images/wheelloader_hero.png"
-            alt="Wheel-Loader RL simulation in Isaac Sim"
-          />
-          <p class="hero-visual-note">
-            Example Isaac Sim scene of the wheel loader interacting with a rock
-            pile. Replace this with a real screenshot / render.
-          </p>
-        </div>
-      </section>
-
-      <!-- OVERVIEW -->
-      <section>
-        <h2><span class="icon">📌</span> Project Overview</h2>
-        <p>
-          This project investigates how reinforcement learning and trajectory
-          optimization can be used to generate efficient bucket motions for an
-          articulated wheel loader. The goal is to automate repeated scooping
-          tasks in a construction setting while respecting realistic constraints
-          on forces, geometry, and interaction with granular material.
-        </p>
-        <p>
-          A custom environment was built in <strong>Isaac Sim / IsaacLab</strong>
-          with articulated arm and bucket dynamics, contact-rich interaction
-          with a rock pile, and task-specific rewards that capture bucket
-          fill-level, energy usage, and motion smoothness.
-        </p>
-        <div class="pill-list">
-          <span class="pill">Task: Scooping & loading rocks</span>
-          <span class="pill">Observation: joint states + bucket pose</span>
-          <span class="pill">Action: continuous joint torques / velocity cmds</span>
-          <span class="pill">Algorithm: PPO / custom RL pipeline</span>
-        </div>
-      </section>
-
-      <!-- TECHNICAL DETAILS + ARCHITECTURE -->
-      <section>
-        <h2><span class="icon">🛠️</span> Technical Details</h2>
-        <div class="two-column">
-          <div>
-            <p><strong>Simulation & Dynamics</strong></p>
-            <ul>
-              <li>
-                Articulated wheel-loader model with arm and bucket joints,
-                PD-based torque control, and configurable joint limits.
-              </li>
-              <li>
-                Rock pile modeled using multiple rigid bodies / particles with
-                tuned contact parameters and friction coefficients.
-              </li>
-              <li>
-                Bézier curve–based nominal scooping trajectories used as
-                initial policies and for debugging motion profiles.
-              </li>
-            </ul>
-
-            <p><strong>Reinforcement Learning Setup</strong></p>
-            <ul>
-              <li>
-                State space includes joint positions, velocities, bucket pose,
-                and limited environment features (e.g., pile height).
-              </li>
-              <li>
-                Action space is continuous: joint torques or joint velocity
-                targets for arm and bucket joints.
-              </li>
-              <li>
-                Reward combines bucket fill level, energy / torque penalties,
-                smoothness of motion, and collision / limit violations.
-              </li>
-              <li>
-                Trained using PPO-style algorithms (e.g., via Stable
-                Baselines3) with curriculum over pile configurations.
-              </li>
-            </ul>
-          </div>
-
-          <div>
-            <div class="image-card">
-              <!-- Replace with a diagram of your architecture -->
-              <img
-                src="../assets/images/wheelloader_architecture.png"
-                alt="High-level architecture for the Wheel-Loader RL system"
-              />
-              <div class="image-caption">
-                Suggested diagram: wheel loader → Isaac Sim environment → RL
-                agent (policy network) → training loop with reward and physics
-                simulation.
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- RESULTS -->
-      <section>
-        <h2><span class="icon">📈</span> Results & Insights</h2>
-        <p>
-          The learned policies are able to perform consistent scooping maneuvers
-          across randomized rock piles while respecting joint limits and
-          avoiding excessive oscillations. While the exact numerical results
-          depend on experiment configuration, the following trends were
-          observed:
-        </p>
-
-        <div class="metrics-grid">
-          <div class="metric-card">
-            <div class="metric-label">Average bucket fill level</div>
-            <div class="metric-value">↑ vs. nominal scripted motion</div>
-            <div class="metric-note">
-              Policies discover deeper and more energy-efficient penetration
-              angles.
-            </div>
-          </div>
-          <div class="metric-card">
-            <div class="metric-label">Energy / torque usage</div>
-            <div class="metric-value">Reduced spikes</div>
-            <div class="metric-note">
-              Reward shaping encourages smoother torque profiles and fewer
-              abrupt reversals.
-            </div>
-          </div>
-          <div class="metric-card">
-            <div class="metric-label">Generalization</div>
-            <div class="metric-value">
-              Robust to pile shape variations (within training range)
-            </div>
-            <div class="metric-note">
-              Randomized rock positions improve robustness to different
-              loading conditions.
-            </div>
-          </div>
-        </div>
-
-        <p>
-          Future work includes domain randomization for sim-to-real transfer,
-          integration with higher-level task planners, and hardware deployment
-          on real wheel-loader platforms.
-        </p>
-      </section>
-
-      <!-- MEDIA & LINKS -->
-      <section>
-        <h2><span class="icon">🔗</span> Code, Media & Main Portfolio</h2>
-        <p>
-          Below are entry points to the source code, demonstration videos, and
-          the main portfolio site that summarizes other projects (CarRacing RL,
-          OCRL bipedal control, EMSD, etc.).
-        </p>
-
-        <div class="link-list">
-          <!-- Replace all href placeholders -->
-          <a
-            class="link-button primary"
-            href="https://github.com/YOUR-USERNAME/roboconstruction-wheelloader"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <span class="icon">⚙️</span>
-            <span>View Project Code</span>
-          </a>
-
-          <a
-            class="link-button"
-            href="https://YOUR-USERNAME.github.io/portfolio/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <span class="icon">🏠</span>
-            <span>Main Portfolio Page</span>
-          </a>
-
-          <a
-            class="link-button"
-            href="https://youtu.be/YOUR-DEMO-LINK"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <span class="icon">🎥</span>
-            <span>Simulation Demo</span>
-          </a>
-
-          <a
-            class="link-button"
-            href="https://your-report-link.pdf"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <span class="icon">📄</span>
-            <span>Project Report / Slides</span>
-          </a>
-        </div>
-      </section>
-    </main>
-
-    <footer>
-      &copy; <span id="year"></span> Ruiyang (Lucas) Zhou · Wheel-Loader RL Project
-    </footer>
-  </div>
-
-  <script>
-    // Set current year in footer
-    document.getElementById("year").textContent = new Date().getFullYear();
-  </script>
-</body>
-</html> -->
-
-
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>Wheel-Loader RL Project | Ruiyang (Lucas) Zhou</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <style>
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      background: #0d1117;
-      color: #e6edf3;
-      margin: 0;
-      padding: 0;
-      line-height: 1.6;
-    }
-    a { color: #4fd1c5; }
-    .container {
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 24px;
-    }
-    header {
-      margin-bottom: 32px;
-    }
-    h1, h2, h3 {
-      color: #58a6ff;
-    }
-    img, video {
-      width: 100%;
-      border-radius: 12px;
-      margin: 12px 0;
-      border: 1px solid #30363d;
-    }
-    section {
-      background: #161b22;
-      padding: 20px;
-      margin: 18px 0;
-      border-radius: 12px;
-      border: 1px solid #30363d;
-    }
-    nav a {
-      background: #21262d;
-      padding: 8px 14px;
-      border-radius: 8px;
-      text-decoration: none;
-      color: #e6edf3;
-      border: 1px solid #30363d;
-    }
-    nav a:hover {
-      background: #30363d;
+      margin-top: 34px;
+      padding-top: 16px;
+      border-top: 1px solid #eee;
+      color: #666;
+      font-size: 13px;
     }
   </style>
 </head>
@@ -708,119 +179,185 @@
 <body>
   <div class="container">
 
-    <!-- 🔙 Back to main site -->
+    <!-- TOP NAV -->
     <nav>
-      <a href="../index.html">← Back to Main Portfolio</a>
+      <div class="nav-left">
+        <a href="../index.html">← Back to Main Portfolio</a>
+      </div>
+      <div class="nav-right">
+        <a class="chip" href="https://github.com/LucaZRY" target="_blank" rel="noopener">GitHub</a>
+        <a class="chip" href="mailto:lucaszhoury@gmail.com">Email</a>
+      </div>
     </nav>
 
-    <!-- ⭐ HERO SECTION -->
+    <!-- HERO -->
     <header>
-      <h1>Wheel-Loader Reinforcement Learning Project</h1>
-      <p>
-        This project focuses on learning autonomous scooping motions for a wheel loader
-        using reinforcement learning within a high-fidelity Isaac Sim environment.
+      <h1>Wheel Loader RL: Autonomous Scooping in Isaac Sim / IsaacLab</h1>
+      <p class="subtitle">
+        Learning contact-rich scooping motions for an articulated wheel loader in high-fidelity physics simulation.
       </p>
-      <img src="../assets/images/wheelloader_hero.png" alt="Wheel Loader Hero Image" />
+
+      <div class="tag-row">
+        <span class="tag">Isaac Sim</span>
+        <span class="tag">IsaacLab</span>
+        <span class="tag">Granular Contact</span>
+        <span class="tag">Reinforcement Learning</span>
+        <span class="tag">Construction Robotics</span>
+        <span class="tag">PhysX</span>
+      </div>
+
+      <img src="../assets/gif/ff_isaacsim.gif" alt="Wheel loader scooping rollout preview" />
     </header>
 
-    <!-- 🟦 INTRODUCTION -->
+    <!-- LINKS -->
+    <section>
+      <h2>Links</h2>
+      <div class="btn-row">
+        <a class="btn" href="../index.html">Main Portfolio</a>
+        <!--
+        <a class="btn" href="YOUR_CODE_REPO_LINK" target="_blank">Code Repository</a>
+        <a class="btn" href="YOUR_DEMO_VIDEO_LINK" target="_blank">Demo Video</a>
+        -->
+      </div>
+    </section>
+
+    <!-- OBJECTIVE & METRICS -->
+    <section>
+      <h2>Objective &amp; Metrics</h2>
+      <p>
+        The goal of this project is to train an autonomous wheel loader to perform stable, repeatable
+        scooping motions under granular contact. The emphasis is on bucket fill consistency,
+        actuator smoothness, and robustness to pile variation.
+      </p>
+
+      <div class="grid">
+        <div class="metric">
+          <div class="label">Primary objective</div>
+          <div class="value">Consistent scooping behavior</div>
+        </div>
+        <div class="metric">
+          <div class="label">Task metric</div>
+          <div class="value">Bucket fill proxy</div>
+        </div>
+        <div class="metric">
+          <div class="label">Stability metric</div>
+          <div class="value">Torque / oscillation penalties</div>
+        </div>
+        <div class="metric">
+          <div class="label">Generalization metric</div>
+          <div class="value">Success across pile variations</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- INTRODUCTION -->
     <section>
       <h2>Introduction</h2>
       <p>
-        Construction sites frequently rely on wheel loaders to handle repetitive
-        scooping and loading tasks. These tasks require precision, physical endurance,
-        and operator experience, often leading to fatigue and inconsistent performance.
-        To address this real-world inefficiency, this project investigates whether
-        reinforcement learning can generate smooth, reliable, and efficient scooping
-        motions for autonomous wheel-loader operation.
+        Wheel loaders are central to construction and mining operations, executing repetitive
+        scooping and loading cycles in highly unstructured environments. Automating these tasks
+        is challenging due to articulated dynamics, underactuated vehicle motion, and
+        contact-rich interaction with granular material.
       </p>
       <p>
-        The objective of this project is to develop and evaluate a reinforcement-learning
-        policy capable of performing bucket scooping in simulated granular media using
-        Isaac Sim / IsaacLab.
+        This project explores whether reinforcement learning can produce robust scooping policies
+        in a simulation-first setting using <strong>Isaac Sim / IsaacLab</strong>, providing a testbed
+        for future sim-to-real transfer.
       </p>
     </section>
 
-    <!-- 🛠 METHODS -->
+    <!-- SYSTEM PIPELINE -->
+    <section>
+      <h2>System Pipeline</h2>
+      <ul>
+        <li>High-fidelity articulated loader simulation with granular rock piles.</li>
+        <li>Scripted/Bézier motion baselines for debugging and comparison.</li>
+        <li>PPO-style RL with reward shaping for fill, smoothness, and safety.</li>
+        <li>Evaluation across randomized pile configurations.</li>
+      </ul>
+    </section>
+
+    <!-- METHODS -->
     <section>
       <h2>Methods</h2>
-      <p>
-        A custom Isaac Sim / IsaacLab environment was built to model the articulated
-        arm and bucket of a wheel loader. The system observes joint positions,
-        velocities, bucket pose, and contact information, and outputs continuous
-        torque or velocity commands to control the scooping motion.
-      </p>
 
-      <p>The simulation includes:</p>
+      <h3>Simulation Environment</h3>
       <ul>
-        <li>Realistic granular rock piles</li>
-        <li>Custom USD environment assets (walls, boundaries)</li>
-        <li>Accurate joint/actuator limits</li>
-        <li>PD-based torque controllers</li>
+        <li>Custom IsaacLab environment with articulated arm and bucket joints.</li>
+        <li>Granular piles modeled using rigid bodies / particle-like approximations.</li>
+        <li>Joint limits, actuator constraints, and PD control integrated.</li>
       </ul>
 
-      <p>
-        A Bézier-curve-based trajectory was used as the initial scripted baseline.
-        A PPO-style reinforcement learning agent improved this baseline using a reward
-        function designed to encourage deeper penetration, smooth torques, efficient
-        motion, and higher bucket fill levels.
-      </p>
+      <h3>Observations &amp; Actions</h3>
+      <ul>
+        <li><strong>Observations:</strong> joint states, bucket pose, task-relevant contact signals.</li>
+        <li><strong>Actions:</strong> continuous joint commands for arm and bucket actuation.</li>
+      </ul>
 
-      <img src="../assets/images/wheelloader_architecture.png" alt="System Architecture" />
+      <h3>Reward Design</h3>
+      <ul>
+        <li>Positive reward for payload retained in the bucket.</li>
+        <li>Penalties for excessive torque, oscillations, and unsafe contacts.</li>
+        <li>Terminal penalties for failed scooping attempts.</li>
+      </ul>
     </section>
 
-    <!-- 📈 RESULTS -->
+    <!-- RESULTS -->
     <section>
       <h2>Results</h2>
       <p>
-        The trained RL policy produced smoother and more consistent scooping behaviors
-        than the scripted baseline. It achieved higher average fill levels and reduced
-        torque spikes, demonstrating better control of the bucket’s penetration angle
-        and trajectory curvature during the scooping phase.
+        In simulation, the learned policy achieved smoother and more repeatable scooping motions
+        than scripted baselines. The policy reduced abrupt reversals during pile penetration and
+        exhibited improved stability across moderate pile variations.
       </p>
 
-      <p>Key results include:</p>
       <ul>
-        <li>Higher bucket fill levels across randomized piles</li>
-        <li>Reduced torque spikes and smoother actuator profiles</li>
-        <li>More reliable scooping angle selection</li>
-        <li>Improved consistency over scripted baseline motions</li>
+        <li>Improved consistency in bucket fill across evaluation episodes.</li>
+        <li>Reduced torque spikes compared to baseline motions.</li>
+        <li>Better tolerance to pile shape variation.</li>
       </ul>
 
-      <!-- 🔥 Add your demo video here -->
       <video controls>
-        <source src="../assets/videos/wheelloader_demo.mp4" type="video/mp4" />
+        <source src="../assets/gif/ff_isaacsim.gif" type="video/mp4" />
+
+        <source src="../assets/gif/ff_bucket.gif" type="video/mp4" />
       </video>
     </section>
 
-    <!-- 💬 DISCUSSION -->
+    <!-- DISCUSSION -->
     <section>
       <h2>Discussion</h2>
       <p>
-        These results suggest that reinforcement learning can significantly improve
-        material-handling efficiency in construction automation. Although the simulation
-        still simplifies certain physical effects, the RL policy demonstrated encouraging
-        robustness to variations in pile shape and rock distribution.
+        This project highlights the importance of reward design and stable contact modeling
+        in learning contact-rich manipulation behaviors. While the policy performs well within
+        the training regime, generalization to wider pile distributions and real hardware
+        remains an open challenge.
       </p>
-
       <p>
-        Future work includes domain randomization for sim-to-real transfer, integration
-        with perception modules for environment-aware scooping, and deployment on
-        real-world robotic loader hardware.
+        Future work includes stronger domain randomization, perception-conditioned policies,
+        and hierarchical task decomposition for full loading cycles.
       </p>
     </section>
 
-    <!-- 👤 YOUR CONTRIBUTION -->
+    <!-- MY CONTRIBUTION -->
     <section>
       <h2>My Contribution</h2>
-      <p>
-        I developed the Isaac Sim environment, built the articulated wheel-loader model,
-        implemented Bézier-curve baselines, designed the RL reward structure, and ran
-        all training experiments. I also created the webpage and visual assets for
-        documenting and presenting the project.
-      </p>
+      <ul>
+        <li>Designed and implemented the Isaac Sim / IsaacLab scooping environment.</li>
+        <li>Built scripted motion baselines and reward shaping.</li>
+        <li>Trained and evaluated RL policies under granular contact.</li>
+        <li>Analyzed failure modes and prepared portfolio visualizations.</li>
+        <li>Authored this project webpage.</li>
+      </ul>
     </section>
 
+    <footer>
+      © <span id="y"></span> Ruiyang “Lucas” Zhou
+    </footer>
   </div>
+
+  <script>
+    document.getElementById("y").textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>
