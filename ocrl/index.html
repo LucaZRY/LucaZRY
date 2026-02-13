@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,72 +11,53 @@
 
   <style>
     :root {
-      --bg: #050714;
-      --bg-alt: #0b1020;
-      --accent: #4fd1c5;
-      --accent-soft: rgba(79, 209, 197, 0.12);
-      --text-main: #e4e7f5;
-      --text-muted: #9ca3c7;
-      --border-subtle: #1f2937;
-      --card-bg: #0d1224;
-      --shadow-soft: 0 24px 60px rgba(0, 0, 0, 0.6);
-      --radius-lg: 18px;
-      --radius-xl: 26px;
-      --font-main: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
-        "Segoe UI", sans-serif;
+      --max: 980px;
+      --border: #e5e5e5;
+      --muted: #444;
+      --bg: #ffffff;
+      --card: #ffffff;
+      --link: #0b66c3;
+      --soft: #f6f6f6;
     }
-
-    * { box-sizing: border-box; }
 
     body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: var(--bg);
+      color: #111;
       margin: 0;
-      font-family: var(--font-main);
-      background: radial-gradient(circle at top, #111827 0, #020617 55%);
-      color: var(--text-main);
-      -webkit-font-smoothing: antialiased;
+      padding: 0;
+      line-height: 1.65;
     }
 
-    a {
-      color: var(--accent);
-      text-decoration: none;
-    }
-    a:hover { text-decoration: underline; }
+    a { color: var(--link); }
 
-    code {
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-      background: rgba(15, 23, 42, 0.9);
-      border: 1px solid rgba(148, 163, 184, 0.25);
-      padding: 1px 6px;
-      border-radius: 8px;
-      color: var(--text-main);
-    }
-
-    .page {
-      max-width: 1080px;
+    .container {
+      max-width: var(--max);
       margin: 0 auto;
-      padding: 24px 18px 64px;
+      padding: 36px 18px;
     }
 
-    header {
+    /* Top nav */
+    nav {
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      margin-bottom: 24px;
+      justify-content: space-between;
       gap: 12px;
+      margin-bottom: 18px;
+      flex-wrap: wrap;
     }
 
-    .nav-left a.back-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 0.9rem;
-      color: var(--text-muted);
-      padding: 6px 10px;
-      border-radius: 999px;
-      background: rgba(15, 23, 42, 0.9);
-      border: 1px solid rgba(148, 163, 184, 0.18);
+    .nav-left a {
+      display: inline-block;
+      padding: 10px 12px;
+      border-radius: 10px;
+      text-decoration: none;
+      color: #111;
+      border: 1px solid var(--border);
+      background: #fff;
     }
-    .nav-left a.back-link span.arrow { font-size: 1.1rem; }
+
+    .nav-left a:hover { background: var(--soft); }
 
     .nav-right {
       display: flex;
@@ -85,494 +65,330 @@
       flex-wrap: wrap;
     }
 
-    .chip-link {
-      font-size: 0.85rem;
-      padding: 6px 12px;
+    .chip {
+      display: inline-block;
+      padding: 8px 12px;
       border-radius: 999px;
-      border: 1px solid rgba(148, 163, 184, 0.4);
-      color: var(--text-muted);
-      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid var(--border);
+      text-decoration: none;
+      color: #111;
+      background: #fff;
+      font-size: 14px;
     }
 
-    .chip-link.highlight {
-      border-color: var(--accent);
-      color: var(--accent);
-      background: var(--accent-soft);
-    }
+    .chip:hover { background: var(--soft); }
 
-    main {
-      display: flex;
-      flex-direction: column;
-      gap: 28px;
-    }
+    /* Headings */
+    header { margin-bottom: 22px; }
+    h1 { margin: 8px 0 8px; font-size: 34px; line-height: 1.2; }
+    h2 { margin: 0 0 10px; font-size: 20px; }
+    h3 { margin: 18px 0 10px; font-size: 16px; color: #222; }
 
-    /* HERO */
-    .hero {
-      display: grid;
-      grid-template-columns: minmax(0, 1.5fr) minmax(0, 1.3fr);
-      gap: 24px;
-      align-items: center;
-    }
-    @media (max-width: 820px) {
-      .hero { grid-template-columns: minmax(0, 1fr); }
-    }
+    .subtitle { color: var(--muted); margin: 6px 0 14px; }
 
-    .hero-text {
-      padding: 20px 22px;
-      border-radius: var(--radius-xl);
-      background: radial-gradient(circle at top left, #111827 0, #020617 60%);
-      border: 1px solid rgba(148, 163, 184, 0.3);
-      box-shadow: var(--shadow-soft);
-    }
-
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 0.8rem;
-      padding: 4px 10px;
-      border-radius: 999px;
-      border: 1px solid rgba(148, 163, 184, 0.4);
-      color: var(--text-muted);
-      margin-bottom: 10px;
-    }
-
-    .badge-dot {
-      width: 7px;
-      height: 7px;
-      border-radius: 999px;
-      background: var(--accent);
-      box-shadow: 0 0 12px rgba(79, 209, 197, 0.8);
-    }
-
-    .hero-title {
-      font-size: clamp(1.9rem, 3vw, 2.35rem);
-      font-weight: 650;
-      letter-spacing: 0.02em;
-      margin: 4px 0 10px;
-    }
-
-    .hero-subtitle {
-      font-size: 1rem;
-      color: var(--text-muted);
-      max-width: 34rem;
-      line-height: 1.6;
-      margin-bottom: 14px;
-    }
-
-    .hero-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-bottom: 16px;
-    }
-
-    .hero-tag {
-      font-size: 0.78rem;
-      padding: 4px 9px;
-      border-radius: 999px;
-      background: rgba(15, 23, 42, 0.92);
-      border: 1px solid rgba(148, 163, 184, 0.4);
-      color: var(--text-muted);
-    }
-
-    .hero-meta {
-      display: flex;
-      gap: 18px;
-      flex-wrap: wrap;
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      border-top: 1px solid rgba(148, 163, 184, 0.2);
-      padding-top: 10px;
-      margin-top: 3px;
-    }
-    .hero-meta span strong {
-      color: var(--text-main);
-      font-weight: 500;
-    }
-
-    .hero-visual {
-      border-radius: var(--radius-xl);
-      background: radial-gradient(circle at top, #1f2937 0, #020617 60%);
-      border: 1px solid rgba(148, 163, 184, 0.3);
-      padding: 14px 14px 16px;
-      box-shadow: var(--shadow-soft);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .hero-visual img {
-      display: block;
-      width: 100%;
-      border-radius: 18px;
-      object-fit: cover;
-      max-height: 360px;
-      border: 1px solid rgba(148, 163, 184, 0.18);
-    }
-
-    .hero-visual-note {
-      font-size: 0.8rem;
-      color: var(--text-muted);
-      margin-top: 6px;
-    }
-
-    /* SECTIONS */
+    /* Cards */
     section {
-      padding: 18px 20px 20px;
-      border-radius: var(--radius-lg);
-      background: rgba(15, 23, 42, 0.94);
-      border: 1px solid rgba(148, 163, 184, 0.32);
-      box-shadow: 0 18px 50px rgba(0, 0, 0, 0.55);
+      background: var(--card);
+      padding: 18px;
+      margin: 14px 0;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      box-shadow: 0 1px 0 rgba(0,0,0,0.02);
     }
-    section + section { margin-top: 2px; }
 
-    section h2 {
-      font-size: 1.1rem;
-      margin: 0 0 10px;
+    img, video {
+      width: 100%;
+      border-radius: 14px;
+      margin: 12px 0;
+      border: 1px solid var(--border);
+      background: #fafafa;
+    }
+
+    ul { padding-left: 22px; }
+
+    code {
+      background: #f4f4f4;
+      padding: 2px 6px;
+      border-radius: 6px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 12px;
+    }
+
+    .metric {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px;
+      background: #fff;
+    }
+
+    .metric .label { color: var(--muted); font-size: 13px; }
+    .metric .value { font-size: 16px; font-weight: 600; margin-top: 6px; }
+
+    .note { color: var(--muted); font-size: 13px; margin-top: 6px; }
+
+    .btn-row {
       display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    section h2 span.icon { font-size: 1.2rem; }
-
-    section h3 {
-      margin: 14px 0 6px;
-      font-size: 1rem;
-      color: var(--text-main);
-      font-weight: 650;
-    }
-
-    section p {
-      font-size: 0.94rem;
-      color: var(--text-muted);
-      line-height: 1.65;
-      margin: 6px 0;
-    }
-
-    ul {
-      margin: 6px 0 4px;
-      padding-left: 20px;
-    }
-
-    li {
-      font-size: 0.94rem;
-      color: var(--text-muted);
-      line-height: 1.65;
-      margin-bottom: 3px;
-    }
-
-    .pill-list {
-      display: flex;
+      gap: 10px;
       flex-wrap: wrap;
-      gap: 8px;
       margin-top: 8px;
     }
 
-    .pill {
-      font-size: 0.8rem;
-      padding: 4px 9px;
-      border-radius: 999px;
-      background: rgba(15, 23, 42, 0.92);
-      border: 1px solid rgba(148, 163, 184, 0.4);
-      color: var(--text-muted);
-    }
-
-    .two-column {
-      display: grid;
-      grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
-      gap: 18px;
-      margin-top: 6px;
-    }
-    @media (max-width: 820px) {
-      .two-column { grid-template-columns: minmax(0, 1fr); }
-    }
-
-    .image-card {
-      background: linear-gradient(135deg, #020617 0, #020617 45%, #111827 100%);
-      border-radius: 16px;
-      border: 1px solid rgba(148, 163, 184, 0.35);
-      padding: 10px 10px 12px;
-    }
-
-    .image-card img {
-      width: 100%;
-      border-radius: 12px;
-      max-height: 260px;
-      object-fit: cover;
-      border: 1px solid rgba(148, 163, 184, 0.18);
-    }
-
-    .image-caption {
-      font-size: 0.8rem;
-      color: var(--text-muted);
-      margin-top: 4px;
-    }
-
-    video {
-      width: 100%;
-      border-radius: 14px;
-      border: 1px solid rgba(148, 163, 184, 0.25);
-      margin-top: 10px;
-      background: #020617;
-    }
-
-    .link-list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 10px;
-    }
-
-    .link-button {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 8px 12px;
-      border-radius: 999px;
-      background: rgba(15, 23, 42, 0.94);
-      border: 1px solid rgba(148, 163, 184, 0.4);
-      font-size: 0.85rem;
-      color: var(--text-main);
+    .btn {
+      display: inline-block;
+      padding: 10px 12px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: #fff;
       text-decoration: none;
+      color: #111;
     }
 
-    .link-button.primary {
-      background: linear-gradient(135deg, #22c55e, #4fd1c5);
-      border: none;
-      color: #020617;
-      font-weight: 600;
+    .btn:hover { background: var(--soft); }
+
+    .tag-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 10px;
     }
 
-    .link-button span.icon { font-size: 1rem; }
+    .tag {
+      display: inline-block;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: #fff;
+      font-size: 13px;
+      color: #222;
+    }
 
     footer {
-      margin-top: 26px;
-      font-size: 0.8rem;
-      color: var(--text-muted);
-      text-align: center;
+      margin-top: 34px;
+      padding-top: 16px;
+      border-top: 1px solid #eee;
+      color: #666;
+      font-size: 13px;
     }
   </style>
 </head>
 
 <body>
-  <div class="page">
-    <header>
+  <div class="container">
+
+    <!-- TOP NAV -->
+    <nav>
       <div class="nav-left">
-        <a href="../index.html" class="back-link">
-          <span class="arrow">←</span>
-          <span>Back to main portfolio</span>
-        </a>
+        <a href="../index.html">← Back to Main Portfolio</a>
+      </div>
+      <div class="nav-right">
+        <a class="chip" href="https://github.com/LucaZRY" target="_blank" rel="noopener">GitHub</a>
+        <a class="chip" href="mailto:lucaszhoury@gmail.com">Email</a>
+
+        <!-- Uncomment when ready (avoid broken links)
+        <a class="chip" href="YOUR_CODE_REPO_LINK" target="_blank" rel="noopener">Code</a>
+        <a class="chip" href="YOUR_REPORT_PDF_LINK" target="_blank" rel="noopener">Report (PDF)</a>
+        <a class="chip" href="YOUR_DEMO_VIDEO_LINK" target="_blank" rel="noopener">Demo</a>
+        -->
+      </div>
+    </nav>
+
+    <!-- HERO -->
+    <header>
+      <h1>OCRL Project: LQR-Based Balance Control for a Bipedal Wheel Robot</h1>
+      <p class="subtitle">
+        Designed and simulated an <strong>LQR + Virtual Model Control (VMC)</strong> framework to stabilize a
+        planar bipedal wheeled robot with a five-bar leg mechanism, enabling upright posture regulation and
+        coordinated wheel/leg torque allocation.
+      </p>
+
+      <div class="tag-row">
+        <span class="tag">LQR</span>
+        <span class="tag">Gain Scheduling</span>
+        <span class="tag">Virtual Model Control</span>
+        <span class="tag">State-Space</span>
+        <span class="tag">Linearization</span>
+        <span class="tag">MATLAB</span>
       </div>
 
-      <div class="nav-right">
-        <!-- Optional: replace these with your real links (or delete them) -->
-        <a class="chip-link highlight" href="#" target="_blank" rel="noopener noreferrer">
-          View OCRL Report / Code
-        </a>
-        <a class="chip-link" href="mailto:lucaszhoury@gmail.com" target="_blank" rel="noopener noreferrer">
-          Contact Lucas
-        </a>
-      </div>
+      <img src="../assets/images/ocrl_hero.png" alt="Bipedal wheel robot illustration" />
+      <div class="note">Tip: use your best screenshot/diagram here (keep paths valid to avoid 404).</div>
     </header>
 
-    <main>
-      <!-- HERO -->
-      <section class="hero">
-        <div class="hero-text">
-          <div class="badge">
-            <span class="badge-dot"></span>
-            <span>Optimal Control &amp; Reinforcement Learning (OCRL) · CMU</span>
-          </div>
+    <!-- LINKS -->
+    <section>
+      <h2>Links</h2>
+      <div class="btn-row">
+        <a class="btn" href="../index.html">Main Portfolio</a>
 
-          <h1 class="hero-title">OCRL Project: LQR-Based Balance Control for a Bipedal Wheel Robot</h1>
+        <!-- Uncomment only when ready -->
+        <!-- <a class="btn" href="YOUR_CODE_REPO_LINK" target="_blank" rel="noopener">Code Repository</a> -->
+        <!-- <a class="btn" href="YOUR_REPORT_PDF_LINK" target="_blank" rel="noopener">Report (PDF)</a> -->
+        <!-- <a class="btn" href="../assets/videos/ocrl_demo.mp4" target="_blank" rel="noopener">Demo Video</a> -->
+      </div>
+      <div class="note">Avoid broken links on public pages—uncomment only when you have real URLs/files.</div>
+    </section>
 
-          <p class="hero-subtitle">
-            Designed and simulated an LQR + Virtual Model Control (VMC) framework to stabilize a
-            planar bipedal wheeled robot with a five-bar leg mechanism, enabling upright posture
-            regulation and coordinated wheel/leg torque allocation.
-          </p>
+    <!-- OBJECTIVE / METRICS -->
+    <section>
+      <h2>Objective &amp; Metrics</h2>
+      <p>
+        Bipedal wheeled robots combine leg agility with wheel efficiency, but balance is challenging due to nonlinear,
+        underactuated dynamics and configuration-dependent behavior. The goal is stable upright posture while coordinating
+        wheel and hip torques through a lightweight controller suitable for real-time use.
+      </p>
 
-          <div class="hero-tags">
-            <span class="hero-tag">LQR Control</span>
-            <span class="hero-tag">Gain Scheduling</span>
-            <span class="hero-tag">Virtual Model Control</span>
-            <span class="hero-tag">State-Space Modeling</span>
-            <span class="hero-tag">MATLAB Simulation</span>
-          </div>
-
-          <div class="hero-meta">
-            <span><strong>Role:</strong> Modeling &amp; controls</span>
-            <span><strong>Course:</strong> OCRL</span>
-            <span><strong>Timeline:</strong> 2025</span>
-          </div>
+      <div class="grid">
+        <div class="metric">
+          <div class="label">Primary objective</div>
+          <div class="value">Upright stabilization (near-zero pitch)</div>
         </div>
-
-        <div class="hero-visual">
-          <img src="../assets/images/ocrl_hero.png" alt="Bipedal wheel robot illustration" />
-          <p class="hero-visual-note">
-            Bipedal wheeled robot model used for balance-control simulation and controller evaluation.
-          </p>
+        <div class="metric">
+          <div class="label">Control metric</div>
+          <div class="value">Smooth torque commands (no spikes)</div>
         </div>
-      </section>
-
-      <!-- OVERVIEW -->
-      <section>
-        <h2><span class="icon">🧭</span> Project Overview</h2>
-        <p>
-          Bipedal wheeled robots combine leg agility with wheel efficiency, but maintaining balance is difficult
-          due to nonlinear, underactuated dynamics and configuration-dependent behavior. This project develops
-          a <strong>full-state LQR</strong> controller for body posture regulation and augments it with
-          <strong>Virtual Model Control (VMC)</strong> to convert task-space objectives into joint torques.
-        </p>
-
-        <div class="pill-list">
-          <span class="pill">Planar model reduction</span>
-          <span class="pill">Upright equilibrium linearization</span>
-          <span class="pill">Offline Riccati solve</span>
-          <span class="pill">Online gain interpolation</span>
-          <span class="pill">Jacobian-transpose torque mapping</span>
+        <div class="metric">
+          <div class="label">Tracking metric</div>
+          <div class="value">Leg motion / velocity profile tracking</div>
         </div>
-      </section>
-
-      <!-- METHODS -->
-      <section>
-        <h2><span class="icon">🧠</span> Methods</h2>
-
-        <div class="two-column">
-          <div>
-            <h3>Dynamic Modeling</h3>
-            <p>
-              To make the control problem tractable, the five-bar leg structure is reduced to a planar model
-              (wheel + rigid leg + rigid body). Using Newton–Euler equations, the coupled dynamics are derived
-              and rewritten in first-order state-space form.
-            </p>
-            <ul>
-              <li>State vector <em>x</em> includes positions/angles and their velocities.</li>
-              <li>Input vector <em>u</em> contains wheel torque and hip torque.</li>
-              <li>The model is linearized about the upright equilibrium.</li>
-            </ul>
-
-            <h3>LQR Design with Gain Scheduling</h3>
-            <p>
-              An LQR controller is designed on the linearized system to minimize a quadratic cost on state deviation
-              and control effort, using <code>u = -Kx</code> from the continuous-time algebraic Riccati equation.
-              Since effective leg length changes during motion, gains are scheduled versus leg geometry:
-            </p>
-            <ul>
-              <li>Compute LQR gains offline for discrete leg lengths.</li>
-              <li>Fit cubic polynomials to each gain entry vs. leg length.</li>
-              <li>Interpolate <code>K(L₀)</code> online using the current leg geometry.</li>
-            </ul>
-
-            <h3>Virtual Model Control (VMC)</h3>
-            <p>
-              VMC maps task-space virtual forces (spring–damper behavior) into joint torques using
-              <code>T = JᵀF</code>, where <em>F</em> encodes desired support and damping and <em>J</em> is the
-              task Jacobian.
-            </p>
-          </div>
-
-          <div>
-            <div class="image-card">
-              <img src="../assets/images/ocrl_architecture.png" alt="OCRL control architecture diagram" />
-              <div class="image-caption">
-                Closed-loop architecture: state feedback for body regulation (LQR) + task-space to joint-space mapping (VMC).
-              </div>
-            </div>
-          </div>
+        <div class="metric">
+          <div class="label">Robustness focus</div>
+          <div class="value">Geometry changes via gain scheduling</div>
         </div>
-      </section>
+      </div>
 
-      <!-- EXPERIMENTAL SETUP -->
-      <section>
-        <h2><span class="icon">🧪</span> Experimental Setup</h2>
-        <p>
-          The controller is evaluated in MATLAB simulation using a planar five-bar leg + wheel model.
-          The closed-loop pipeline includes state estimation, upright posture reference tracking, online
-          gain scheduling, and torque command generation for wheel and leg actuators.
-        </p>
-        <ul>
-          <li>Full-state feedback using simulated measurements of angles/positions and velocities.</li>
-          <li>Reference forward velocity and near-upright body pitch target.</li>
-          <li>Online evaluation of <code>K(L₀)</code> from the scheduled gain model.</li>
-          <li>Torque allocation via VMC for leg tasks and wheel propulsion.</li>
-        </ul>
-      </section>
+      <div class="note">
+        If you have numbers, replace with concrete stats (e.g., “Pitch RMS: 1.8° over 30s”, “Peak hip torque: 8.2 N·m”).
+      </div>
+    </section>
 
-      <!-- RESULTS -->
-      <section>
-        <h2><span class="icon">📈</span> Results</h2>
-        <p>
-          Simulation results indicate the controller maintains upright balance and coordinates wheel/leg torques
-          during cyclic motions. The body pitch remains near zero while legs swing, and torque commands remain smooth
-          without abrupt spikes.
-        </p>
-        <ul>
-          <li><strong>Posture regulation:</strong> body pitch stays close to upright during motion.</li>
-          <li><strong>Torque coordination:</strong> smooth wheel and hip torques with higher demand during transitions.</li>
-          <li><strong>Tracking behavior:</strong> leg speed tracking aligns with commanded profiles in simulation.</li>
-          <li><strong>Motion validity:</strong> animations confirm stable gait execution without loss of balance.</li>
-        </ul>
+    <!-- INTRODUCTION -->
+    <section>
+      <h2>Introduction</h2>
+      <p>
+        This OCRL course project studies balance control for a planar bipedal wheeled robot with a five-bar leg mechanism.
+        Because the system is nonlinear and underactuated, control performance depends on configuration (e.g., effective leg
+        length), motivating a controller that is both <strong>model-based</strong> and <strong>adaptive to geometry</strong>.
+      </p>
+      <p>
+        We design a full-state <strong>LQR</strong> controller around an upright equilibrium for posture regulation, then use
+        <strong>Virtual Model Control (VMC)</strong> to map task-space objectives into joint torques.
+      </p>
+    </section>
 
-        <video controls>
-          <source src="../assets/videos/ocrl_demo.mp4" type="video/mp4" />
-          Your browser does not support the video tag.
-        </video>
-      </section>
+    <!-- PIPELINE OVERVIEW -->
+    <section>
+      <h2>System Pipeline</h2>
+      <ul>
+        <li><strong>Model reduction:</strong> reduce the five-bar leg structure to a tractable planar model.</li>
+        <li><strong>Linearization:</strong> linearize about the upright equilibrium and write state-space form.</li>
+        <li><strong>LQR synthesis:</strong> solve the continuous-time ARE offline and compute <code>u = -Kx</code>.</li>
+        <li><strong>Gain scheduling:</strong> precompute gains vs. leg length and interpolate <code>K(L₀)</code> online.</li>
+        <li><strong>VMC mapping:</strong> convert virtual forces to joint torques via <code>T = JᵀF</code>.</li>
+      </ul>
+    </section>
 
-      <!-- DISCUSSION -->
-      <section>
-        <h2><span class="icon">💬</span> Discussion</h2>
-        <p>
-          Combining LQR (for body regulation) with VMC (for torque mapping) provides a clean, modular controller
-          structure. Gain scheduling adapts the feedback law to changing leg geometry while avoiding online Riccati
-          solves, keeping runtime computation lightweight.
-        </p>
-        <p>
-          Current performance is demonstrated in an idealized simulation. Hardware deployment would require addressing
-          parameter uncertainty, sensing noise, and ground interaction variability (e.g., friction changes). Future work
-          could add robustness analysis and/or learning-based adaptation to refine gains online.
-        </p>
-      </section>
+    <!-- METHODS -->
+    <section>
+      <h2>Methods</h2>
 
-      <!-- CONTRIBUTION -->
-      <section>
-        <h2><span class="icon">👤</span> My Contribution</h2>
-        <p>Within the OCRL team, I contributed to:</p>
-        <ul>
-          <li>Formulating the state-space model used for LQR design.</li>
-          <li>Implementing LQR synthesis and gain-scheduling logic in MATLAB.</li>
-          <li>Developing the VMC mapping from task-space forces to joint torques.</li>
-          <li>Running simulations, generating plots, and summarizing results for the final report.</li>
-          <li>Designing this portfolio page layout and organizing the narrative.</li>
-        </ul>
+      <h3>Dynamic Modeling &amp; Linearization</h3>
+      <ul>
+        <li>Derive coupled dynamics (Newton–Euler) and rewrite as first-order state-space.</li>
+        <li>State includes positions/angles and velocities; inputs include wheel torque + hip torque.</li>
+        <li>Linearize the model around the upright equilibrium for LQR design.</li>
+      </ul>
 
-        <div class="link-list">
-          <!-- Replace these with your real links if you have them -->
-          <a class="link-button primary" href="../index.html">
-            <span class="icon">🏠</span>
-            <span>Main Portfolio</span>
-          </a>
-          <a class="link-button" href="#" target="_blank" rel="noopener noreferrer">
-            <span class="icon">📄</span>
-            <span>Full Report (PDF)</span>
-          </a>
-          <a class="link-button" href="#" target="_blank" rel="noopener noreferrer">
-            <span class="icon">⚙️</span>
-            <span>Code Repository</span>
-          </a>
-        </div>
-      </section>
-    </main>
+      <h3>LQR with Gain Scheduling</h3>
+      <ul>
+        <li>Compute LQR gains offline for discrete effective leg lengths.</li>
+        <li>Fit low-order polynomials to each gain entry vs. leg length.</li>
+        <li>Interpolate <code>K(L₀)</code> online using current geometry (no online Riccati solve).</li>
+      </ul>
+
+      <h3>Virtual Model Control (VMC)</h3>
+      <ul>
+        <li>Define virtual spring–damper forces in task space for support and damping.</li>
+        <li>Map virtual force to joint torques using <code>T = JᵀF</code>.</li>
+      </ul>
+
+      <img src="../assets/images/ocrl_architecture.png" alt="OCRL control architecture diagram" />
+      <div class="note">Closed-loop: LQR regulation + VMC task-to-torque mapping.</div>
+    </section>
+
+    <!-- EXPERIMENTAL SETUP -->
+    <section>
+      <h2>Experimental Setup</h2>
+      <p>
+        Controllers are evaluated in MATLAB simulation using the planar model. The closed-loop pipeline includes full-state
+        feedback, upright posture references, online gain scheduling, and torque command generation for wheel and leg actuators.
+      </p>
+      <ul>
+        <li>Full-state feedback (simulated positions/angles and velocities).</li>
+        <li>Near-upright pitch reference + forward velocity target (if applicable).</li>
+        <li>Online evaluation of <code>K(L₀)</code> via scheduled gain model.</li>
+        <li>Torque allocation through VMC for leg tasks + wheel propulsion.</li>
+      </ul>
+    </section>
+
+    <!-- RESULTS -->
+    <section>
+      <h2>Results</h2>
+      <p>
+        Simulation indicates the controller maintains upright balance and coordinates wheel/leg torques during cyclic motions.
+        Body pitch remains near zero while legs swing, and torque commands remain smooth without abrupt spikes.
+      </p>
+      <ul>
+        <li><strong>Posture regulation:</strong> stable upright body pitch during motion.</li>
+        <li><strong>Torque coordination:</strong> smooth wheel and hip torques with higher demand during transitions.</li>
+        <li><strong>Tracking behavior:</strong> leg-speed tracking aligns with commanded profiles in simulation.</li>
+        <li><strong>Motion validity:</strong> animations confirm stable gait execution without loss of balance.</li>
+      </ul>
+
+      <video controls>
+        <source src="../assets/videos/ocrl_demo.mp4" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+
+      <div class="note">Tip: add 1–2 plots (pitch vs time, torque vs time) to make the results more “engineering”.</div>
+    </section>
+
+    <!-- DISCUSSION -->
+    <section>
+      <h2>Discussion</h2>
+      <p>
+        Combining LQR (body regulation) with VMC (task-to-torque mapping) yields a modular control structure. Gain scheduling
+        adapts feedback gains to changing leg geometry while keeping runtime computation lightweight.
+      </p>
+      <p>
+        Hardware deployment would require handling parameter uncertainty, sensor noise, and ground interaction variability
+        (e.g., friction changes). Future work could add robustness analysis (e.g., disturbance rejection) and/or learning-based
+        adaptation to refine gains online.
+      </p>
+    </section>
+
+    <!-- MY CONTRIBUTION -->
+    <section>
+      <h2>My Contribution</h2>
+      <ul>
+        <li>Formulated the state-space model used for LQR design.</li>
+        <li>Implemented LQR synthesis and gain scheduling in MATLAB.</li>
+        <li>Developed VMC mapping from task-space forces to joint torques.</li>
+        <li>Ran simulations, generated plots, and summarized results for the final report.</li>
+        <li>Built this project webpage and organized the narrative and artifacts.</li>
+      </ul>
+    </section>
 
     <footer>
-      &copy; <span id="year"></span> Ruiyang (Lucas) Zhou · OCRL Project – Bipedal Wheel Robot LQR Control
+      © <span id="y"></span> Ruiyang “Lucas” Zhou
     </footer>
   </div>
 
   <script>
-    document.getElementById("year").textContent = new Date().getFullYear();
+    document.getElementById("y").textContent = new Date().getFullYear();
   </script>
 </body>
 </html>
-```
